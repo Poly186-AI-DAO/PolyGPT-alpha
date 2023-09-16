@@ -1,6 +1,8 @@
  ./
- 
+
 OAI_CONFIG_LIST.json
 OAI_CONFIG_LIST copy.json
 
 convo.txt
+
+autogen\.cache\*autogen\.cache 
