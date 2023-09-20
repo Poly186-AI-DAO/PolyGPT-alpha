@@ -1,0 +1,21 @@
+documentation_specialist = autogen.RetrieveAssistantAgent(
+#     name="documentation_specialist",
+#     system_message="You are the go-to expert for documentation queries.",
+#     llm_config={
+#         "request_timeout": 600,
+#         "seed": 42,
+#         "config_list": config_list_gpt4,
+#     },
+# )
+
+# code_assistant = autogen.RetrieveUserProxyAgent(
+#     name="code_assistant",
+#     human_input_mode="NEVER",
+#     max_consecutive_auto_reply=2,
+#     retrieve_config={
+#         "docs_path": "./website/docs",
+#         "chunk_token_size": 2000,
+#         "model": config_list_gpt4[0]["model"],
+#         "client": chromadb.PersistentClient(path="/tmp/chromadb"),
+#     },
+# )
