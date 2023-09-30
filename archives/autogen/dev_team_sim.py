@@ -1,7 +1,6 @@
 
 # Required imports
 from flaml import autogen
-import json
 
 # Configuration initialization
 config_list = autogen.config_list_from_json(
@@ -65,7 +64,7 @@ user_proxy = autogen.UserProxyAgent(
 # Define a task and initiate a chat with the assistant
 user_proxy.initiate_chat(
     assistant,
-    message="Suggest a fix to an open good first issue of flaml",
+    message="can you write a function that can access documetionat about the autogen library, here is a link to their documentation https://microsoft.github.io/autogen/docs/Getting-Started. once you have the information can you then tell me how I can use it. this can be a simple fetch"
 )
 
 print("Script execution completed!")

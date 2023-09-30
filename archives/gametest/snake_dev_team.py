@@ -48,10 +48,10 @@ game_tester = autogen.UserProxyAgent(
     name="Game_Tester",
     system_message="Game Tester: Playtest the game. Share feedback on gameplay, mechanics, and possible bugs.",
     code_execution_config={
-       "work_dir": working_directory,
+        "work_dir": working_directory,
         "use_docker": False,
         "timeout": 120,
-        "last_n_messages": 1,
+        "last_n_messages": 3,
     },
     human_input_mode="ALWAYS",
 )
@@ -61,10 +61,10 @@ code_executor = autogen.UserProxyAgent(
     name="Code_Executor",
     system_message="Code Executor: Run the given code in the specified environment. Report outcomes and potential problems.",
     code_execution_config={
-       "work_dir": working_directory,
+        "work_dir": working_directory,
         "use_docker": False,
         "timeout": 120,
-        "last_n_messages": 1,
+        "last_n_messages": 3,
     },
     human_input_mode="NEVER",
 )
@@ -92,8 +92,9 @@ file_manager = autogen.AssistantAgent(
 
 # Group Chat Setup
 groupchat = autogen.GroupChat(
-    agents=[player, game_tester, game_designer, programmer, code_executor, code_reviewer, internet_researcher, file_manager], 
-    messages=[], 
+    agents=[player, game_tester, game_designer, programmer,
+            code_executor, code_reviewer, internet_researcher, file_manager],
+    messages=[],
     max_round=150  # Increased max_round for extended interaction
 )
 manager = autogen.GroupChatManager(groupchat=groupchat, llm_config=gpt4_config)

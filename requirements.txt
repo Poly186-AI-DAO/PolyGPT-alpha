@@ -1,8 +1,1 @@
-flaml
-flaml[autogen]
-flaml[automl]
-flaml[openai]
-flaml[catboost]
-flaml[vw]
-flaml[forecast]
-flaml[hf]
+pyautogen
