@@ -64,7 +64,7 @@ user_proxy = autogen.UserProxyAgent(
 # Define a task and initiate a chat with the assistant
 user_proxy.initiate_chat(
     assistant,
-    message="can you write a function that can access documetionat about the autogen library, here is a link to their documentation https://microsoft.github.io/autogen/docs/Getting-Started. once you have the information can you then tell me how I can use it. this can be a simple fetch"
+    message="Suggest a fix to an open good first issue of autogen",
 )
 
 print("Script execution completed!")
