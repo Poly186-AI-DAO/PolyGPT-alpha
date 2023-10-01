@@ -1,16 +1,3 @@
- ./
-
 OAI_CONFIG_LIST.json
-OAI_CONFIG_LIST copy.json
-CLAUDE_CONFIG_LIST.json
-convo.txt
-OPEN_SOURCE_LLMS.json
-
-autogen\.cache
-autogen/.cache/
 
 .env
-
-litellm_uuid.txt
-agents_cheatsheet.txt
-project_docs
