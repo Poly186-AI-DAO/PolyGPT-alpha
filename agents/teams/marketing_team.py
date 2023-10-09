@@ -1,4 +1,4 @@
-from flaml import autogen
+from autogen import AssistantAgent, UserProxyAgent, config_list_from_json, GroupChat, GroupChatManager
 import os
 from dotenv import load_dotenv
 from anthropic import Anthropic, HUMAN_PROMPT, AI_PROMPT
@@ -7,7 +7,7 @@ from anthropic import Anthropic, HUMAN_PROMPT, AI_PROMPT
 load_dotenv()
 
 # Configuration for GPT-4
-config_list = autogen.config_list_from_json(
+config_list = config_list_from_json(
     "../../OAI_CONFIG_LIST.json",
     filter_dict={
         "model": [
@@ -32,7 +32,7 @@ anthropic = Anthropic(api_key=api_key)
 working_directory = "marketing"
 
 # Create a planner AssistantAgent and UserProxyAgent instances
-planner = autogen.AssistantAgent(
+planner = AssistantAgent(
     name="planner",
     llm_config={"config_list": config_list},
     system_message='''
@@ -42,7 +42,7 @@ Explain the plan first. Be clear which step is performed by an engineer, and whi
 '''
 )
 
-planner_user = autogen.UserProxyAgent(
+planner_user = UserProxyAgent(
     name="planner_user",
     max_consecutive_auto_reply=0,
     human_input_mode="NEVER",
@@ -98,7 +98,7 @@ def generate_summary(message):
 
     return completion.completion
 
-programmer = autogen.AssistantAgent(
+programmer = AssistantAgent(
     name="Programmer",
     system_message='''Programmer: I'm here to provide detailed explanations and code suggestions. 
 If I'm unsure about something, I'll consult the Researcher for online resources. 
@@ -106,7 +106,7 @@ Always remember to stay in character and follow the guidelines.''',
     llm_config=config_list,
 )
 
-code_executor = autogen.UserProxyAgent(
+code_executor = UserProxyAgent(
     name="Code_Executor",
     system_message='''Code Executor: My role is to execute the provided code from the Programmer in the designated environment. 
 I'll report the outcomes and highlight any potential issues. 
@@ -120,7 +120,7 @@ If the code doesn't follow best practices, I'll recommend enhancements to the Pr
     human_input_mode="NEVER",
 )
 
-user_proxy = autogen.UserProxyAgent(
+user_proxy = UserProxyAgent(
     name="User",
     human_input_mode="TERMINATE",
     max_consecutive_auto_reply=10,
@@ -136,7 +136,7 @@ user_proxy = autogen.UserProxyAgent(
 Otherwise, reply CONTINUE or specify the reason why the task hasn't been solved yet.''',
 )
 
-marking_agent = autogen.AssistantAgent(
+marking_agent = AssistantAgent(
     name="Marking_Agent",
     llm_config={"config_list": config_list},  # Assuming you have defined 'config_list' earlier in your code
     system_message='''Marking Agent: You are a specialized AI assistant for reviewing and marking content. 
@@ -144,13 +144,13 @@ Your primary role is to evaluate answers, essays, code, or any other content pro
 Provide constructive feedback and, if possible, suggest improvements. Ensure fairness and consistency in your evaluations.'''
 )
 
-marketing_team = autogen.GroupChat(
+marketing_team = GroupChat(
     agents=[user_proxy, marking_agent],
     messages=[],
     max_round=50
 )
 
-manager = autogen.GroupChatManager(
+manager = GroupChatManager(
     groupchat=marketing_team, llm_config=model_config)
 
 user_proxy.initiate_chat(

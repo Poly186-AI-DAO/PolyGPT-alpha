@@ -17,9 +17,17 @@ class CoreAgent:
         function_tools_path = os.path.join(
             script_dir, '../../utils/function_tools.json')
 
+        # Build the path to agent_teams.json from the script's directory
+        agent_teams_path = os.path.join(
+            script_dir, '../../utils/agent_teams.json')
+
         # Load the function tools
         with open(function_tools_path, 'r') as f:
             function_tools_json = json.load(f)
+
+        # Load the function tools
+        with open(agent_teams_path, 'r') as f:
+            agent_teams_json = json.load(f)
 
         # Map the function names from the JSON to their respective imported functions
         function_map = {
