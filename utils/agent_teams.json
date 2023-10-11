@@ -1,0 +1,8 @@
+[
+    {
+        "name": "marketing_team",
+        "description": "A team of agents specialized in marketing.",
+        "agents": ["User", "Marking_Agent"],
+        "max_round": 50
+    }
+]
