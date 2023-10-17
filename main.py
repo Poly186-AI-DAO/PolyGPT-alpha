@@ -1,5 +1,6 @@
 # main.py
-from core_agents import CoreAgent
+
+from agents.core.core_agents import CoreAgent
 
 def main():
     # Prompt the user for the initial message
