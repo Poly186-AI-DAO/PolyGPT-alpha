@@ -3,9 +3,10 @@ from autogen import AssistantAgent, UserProxyAgent, config_list_openai_aoai
 import os
 import json
 
-# Import the functions from their file locations
-from specialized_agents.internet_agent import use_internet_agent
-from specialized_agents.planner_agent import initiate_planner_chat
+from agents.specialized_agents.internet_agent import internet_agent
+from agents.specialized_agents.planner_agent import planner_agent
+
+from agents.teams.research_team import research_team
 
 
 class CoreAgent:
@@ -13,48 +14,52 @@ class CoreAgent:
         # Get the directory of the current script
         script_dir = os.path.dirname(os.path.realpath(__file__))
 
-        # Build the path to function_tools.json from the script's directory
-        function_tools_path = os.path.join(
-            script_dir, '../../utils/function_tools.json')
+        specialized_agent_json_path = os.path.join(
+            script_dir, '../../utils/specialized_agents.json')
 
         # Build the path to agent_teams.json from the script's directory
         agent_teams_path = os.path.join(
             script_dir, '../../utils/agent_teams.json')
 
         # Load the function tools
-        with open(function_tools_path, 'r') as f:
-            function_tools_json = json.load(f)
+        with open(specialized_agent_json_path, 'r') as f:
+            specialized_agents_json = json.load(f)
 
         # Load the function tools
         with open(agent_teams_path, 'r') as f:
             agent_teams_json = json.load(f)
 
         # Map the function names from the JSON to their respective imported functions
-        function_map = {
-            "initiate_planner_chat": initiate_planner_chat,
-            "use_internet_agent": use_internet_agent
+        specialized_agent_map = {
+            "planner_agent": planner_agent,
+            "internet_agent": internet_agent
+        }
+
+        # Map the function names from the JSON to their respective imported functions
+        agent_teams_map = {
+            "research_team": research_team,
         }
 
         # Create the agent_caller
         self.poly_core = UserProxyAgent(
             name="Poly Core",
-            human_input_mode="TERMINATE",
+            human_input_mode="ALWAYS",
             max_consecutive_auto_reply=10,
-            code_execution_config={"work_dir": "generated_functions"},
-            function_map=function_map
+            code_execution_config={"work_dir": "../../tools"},
+            function_map=specialized_agent_map
         )
 
-        # Create the mind_stem AssistantAgent
+        # Assistant agent
         self.poly_core_assistant = AssistantAgent(
             name="Poly Core Assistant",
             llm_config={
-                "temperature": 0,
+                "temperature": 1,
                 "request_timeout": 600,
                 "seed": 42,
                 "model": "gpt-4-0613",
                 "config_list": config_list_openai_aoai(exclude="aoai"),
-                "functions": function_tools_json
-            }
+                "functions": specialized_agents_json
+            },
         )
 
     def initiate_chat(self, message):
