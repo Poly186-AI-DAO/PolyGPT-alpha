@@ -12,3 +12,6 @@ OAI_CONFIG_LIST.json
 **\functions/__pycache__/internet_agent.cpython-311.pyc
 **\functions/__pycache__/planner_agent.cpython-311.pyc
 **\project_docs
+__pycache__/
+.cache
+.vscode/
