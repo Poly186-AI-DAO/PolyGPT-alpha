@@ -7,79 +7,132 @@ from agents.internet_agent import internet_agent
 
 from agents.planner_agent import planner_agent
 from agents.research_team import research_team
-from utils.orchestrator import ConversationType
-from utils.orchestrator import Orchestrator
-
+from llms_config import LlmConfiguration
+from utils.chat_type import ChatType
+from utils.chat_manager import ChatManager
 
 
 class CoreAgent:
-    def __init__(self):
-        # Get the directory of the current script
-        script_dir = os.path.dirname(os.path.realpath(__file__))
+    def __init__(self, message: str):
+            self.message = message
+            self.setup_agents()
+            self.setup_group_chat()  # Calling the renamed method
 
-        specialized_agent_json_path = os.path.join(
-            script_dir, '../utils/specialized_agents.json')
+    def setup_agents(self):
+        llm_filters = [
+            "gpt-4-32k",
+            "gpt-35-turbo-16k",
+            "gpt4",
+            "gpt-4-0314",
+            "gpt-4-0613",
+            "gpt-4-32k-0314",
+            "gpt-4-32k-v0314"
+        ]
 
-        # Build the path to agent_teams.json from the script's directory
-        agent_teams_path = os.path.join(
-            script_dir, '../utils/agent_teams.json')
+        config_list_instance = LlmConfiguration(filter_llms=llm_filters)
 
-        # Load the function tools
-        with open(specialized_agent_json_path, 'r') as f:
-            specialized_agents_json = json.load(f)
-
-        # Load the function tools
-        with open(agent_teams_path, 'r') as f:
-            agent_teams_json = json.load(f)
-
-        # Map the function names from the JSON to their respective imported functions
-        specialized_agent_map = {
-            "planner_agent": planner_agent,
-            "internet_agent": internet_agent
+        llm_config = {
+            "request_timeout": 600,
+            "seed": 42,
+            "config_list": config_list_instance.config,
+            "temperature": 0,
         }
 
-        # Map the function names from the JSON to their respective imported functions
-        agent_teams_map = {
-            "research_team": research_team,
-        }
-
-        # Create the agent_caller
-        self.poly_core = UserProxyAgent(
-            name="Poly Core",
-            human_input_mode="ALWAYS",
-            max_consecutive_auto_reply=10,
-            code_execution_config={"work_dir": "../../tools"},
-            function_map=specialized_agent_map
+        self.user_proxy = UserProxyAgent(
+            name="Admin",
+            system_message=''' 
+            Admin. 
+            The central authority in the research group. 
+            Your role is to interact with the planner, scrutinizing and endorsing plans. 
+            You hold the power to greenlight the implementation of the strategy. 
+            Your approval is vital before any plan execution.
+            ''',
+            code_execution_config=False,
         )
 
-        # Assistant agent
-        self.poly_core_assistant = AssistantAgent(
-            name="Poly Core Assistant",
-            llm_config={
-                "temperature": 1,
-                "request_timeout": 600,
-                "seed": 42,
-                "model": "gpt-4-0613",
-                "config_list": config_list_openai_aoai(exclude="aoai"),
-                "functions": specialized_agents_json
-            },
+        self.engineer = AssistantAgent(
+            name="Engineer",
+            llm_config=llm_config,
+            system_message='''Engineer. 
+            You are the coding specialist in this research team. 
+            Always operate within the boundaries of an approved plan. 
+            Your primary task is to develop python/shell scripts that fulfill the objectives of the given task. 
+            Adherence to coding standards is imperative. 
+            Do not create incomplete codes or those that need external amendments.
+            ''',
         )
 
-    def initiate_chat(self, message):
-        # Initiate a group chat based on the Orchestrator's defined patterns
-        logging.info("Initiating group chat...")
-        
-        agents = [self.poly_core, self.poly_core_assistant]
-        orchestrator = Orchestrator(name="MainOrchestrator", agents=agents)
-        
-        orchestrator.start_conversation(
-            pattern=ConversationType.ALL_TO_ALL,
-            initial_message=message,
-            starter_name=self.poly_core.name,
-            agent_order_names=[
-                self.poly_core.name, 
-                self.poly_core_assistant.name
-            ]
+        self.scientist = AssistantAgent(
+            name="Scientist",
+            llm_config=llm_config,
+            system_message='''
+            Scientist. 
+            Your expertise lies in deciphering and leveraging the knowledge from academic papers. 
+            While you strictly adhere to the approved plan, you do not indulge in coding. 
+            Your primary contribution is recommending how the revelations in papers can be practically implemented or beneficial to the task at hand.
+            ''',
         )
 
-        logging.info("Chat initiated.")
+        self.planner = AssistantAgent(
+            name="Planner",
+            system_message='''
+            Planner. 
+            You are the strategist of the team, formulating plans that leverage the skills of both the engineer and scientist. 
+            Your plans should be precise, segregating tasks based on roles. 
+            It's vital to adapt, refining your strategies based on feedback, until the admin provides a stamp of approval.
+            ''',
+            llm_config=llm_config,
+        )
+
+        self.executor = UserProxyAgent(
+            name="Executor",
+            system_message='''
+            Executor.
+            As the name suggests, you bring plans to life by running the code crafted by the engineer. 
+            It's crucial that you promptly report back with the outcomes, ensuring the engineer is abreast of the results to make any necessary adjustments.
+            ''',
+            human_input_mode="NEVER",
+            code_execution_config={
+                "last_n_messages": 3, "work_dir": "research"},
+        )
+
+        self.critic = AssistantAgent(
+            name="Critic",
+            system_message='''
+            Critic. 
+            Your sharp analytical skills are crucial for the team. 
+            Your duty is to meticulously review plans, verify claims, and scrutinize codes. 
+            Always provide constructive feedback and ensure that every strategy has valid, traceable references such as URLs to ensure the team is grounded in verifiable information.
+            ''',
+            llm_config=llm_config,
+        )
+
+    def setup_group_chat(self):
+        """Initialize a group chat among the research team agents."""
+        logging.info("Initializing group chat...")
+
+        # Define the order of agents in the conversation
+        agents_in_order = [
+            self.planner,
+            self.scientist,
+            self.engineer,
+            self.critic,
+            self.executor,
+            self.user_proxy
+        ]
+
+        # Initialize the ChatManager with the agents
+        chat_manager = ChatManager(
+            name="ResearchTeam",  # Updated name for clarity
+            agents=agents_in_order
+        )
+
+        # Start a group-based conversation
+        chat_manager.start_conversation(
+            pattern=ChatType.HIERARCHICAL,
+            initial_message=self.message,  # Using the class attribute
+            starter_name=self.planner.name,
+            agent_order_names=[agent.name for agent in agents_in_order]
+        )
+
+        logging.info("Group chat initialized.")
