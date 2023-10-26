@@ -15,7 +15,6 @@ from tools.search import search
 from tools.summary import summary
 from utils.db import AgentDB
 from utils.workspace import Workspace
-from utils.observer import Observable
 
 # Create a temporary directory
 temp_dir = tempfile.mkdtemp()
@@ -138,11 +137,11 @@ class AgentInitializer(Observable):
                 "docs_path": "docs",
                 "chunk_token_size": 1000,
                 "model": config_list_instance.config[0]["model"],
-                "client": chromadb.PersistentClient(path=temp_dir),  # Use the temporary directory
+                "client": chromadb.PersistentClient(path=temp_dir),
                 "collection_name": "groupchat",
                 "get_or_create": True,
             },
-            code_execution_config=False,  # we don't want to execute code in this case.
+            code_execution_config=False,
         )
 
         self.group_assistant = AssistantAgent(

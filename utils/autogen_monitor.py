@@ -5,7 +5,6 @@ from utils.observer import Observable
 from utils.poly_logger import PolyLogger
 
 
-
 LOG = PolyLogger(__name__)
 
 """
@@ -56,11 +55,11 @@ class AutogenMonitor(Observable):
 
     def monitor_agent(self, methods_to_monitor):
         for method_name in methods_to_monitor:
-            if hasattr(self.agent, method_name) and method_name not in self.method_wrappers:  # Corrected this line
+            if hasattr(self.agent, method_name) and method_name not in self.method_wrappers:
                 method = getattr(self.agent, method_name)
                 wrapped_method = self.wrap_agent_method(method)
                 setattr(self.agent, method_name, wrapped_method)
-                self.method_wrappers.add(method_name)  # Corrected this line
+                self.method_wrappers.add(method_name)
             else:
                 LOG.warning(
                     f"🚨 {self.agent.name}: METHOD {method_name} NOT FOUND or already wrapped")
@@ -80,26 +79,18 @@ class AutogenMonitor(Observable):
             return sync_wrapper
 
     def register_method_call(self, func, args, kwargs):
-        # Add the agent's name to the data
-        data_with_agent_name = {'agent_name': self.agent.name, 'data': (args, kwargs)}
-        # Schedule the asynchronous notify function to run
-        self.notify(func.__name__, data_with_agent_name)  # Use the enhanced data
+        data_with_agent_name = {
+            'agent_name': self.agent.name, 'data': (args, kwargs)}
 
-        for arg in args:
-            self.log_method_detail("ARGUMENT", arg)
-        for key, value in kwargs.items():
-            self.log_method_detail(f"KWARG {key}", value)
+        # Using an event loop to run the coroutine
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(self.notify(
+            func.__name__, data_with_agent_name))
 
-    def log_method_detail(self, detail_type, value):
-        try:
-            LOG.info(
-                f"🔎 {self.agent.name}: DETAIL - {detail_type} TYPE: {type(value)} VALUE: {value}")
-        except Exception as e:
-            LOG.warning(
-                f"🚧 {self.agent.name}: Could not log {detail_type.lower()} detail: {e}")
+        # Consolidated logging for args and kwargs
+        LOG.info(
+            f"🔎 {self.agent.name}: {func.__name__} called with ARGS: {args} KWARGS: {kwargs}")
 
     async def notify(self, event, data):
-        LOG.info(
-            f"🔔 {self.agent.name}: NOTIFYING THE OCCURRENCE OF THIS EVENT: {event} AND DATA: {data}")
+        LOG.info(f"🔔 {self.agent.name}: NOTIFYING EVENT: {event} DATA: {data}")
         await super().notify_observers_async(event=event, data=data)
-        LOG.info(f"🔔 {self.agent.name}: NOTIFICATION SENT")

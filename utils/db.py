@@ -183,6 +183,7 @@ class AgentDB:
         task_id: str,
         input: StepRequestBody,
         is_last: bool = False,
+        # trunk-ignore(ruff/B006)
         additional_input: Optional[Dict[str, Any]] = {},
     ) -> Step:
         if self.debug_enabled:

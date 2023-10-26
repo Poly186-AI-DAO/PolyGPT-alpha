@@ -1,5 +1,4 @@
 import os
-from agents.core_agents import CoreAgent
 from utils.poly_logger import PolyLogger
 from agents.polygpt import PolyGPTAgents
 from utils.sqlalchemy import PolyDatabase
@@ -12,7 +11,7 @@ def main():
     message = input("Enter the initial message for PolyGPT: ")
 
     # Assuming you have a database and workspace already set up
-        # If not, you need to provide these
+
     database_name = os.getenv("DATABASE_STRING")
     workspace = LocalWorkspace(os.getenv("AGENT_WORKSPACE"))
     database = PolyDatabase(database_name, debug_enabled=False)
@@ -22,10 +21,6 @@ def main():
 
     # Initiate a chat with the PolyGPTAgents using the provided message
     poly_gpt_agent.start_chat(user_input=message)
-
-    # If you still want to use the CoreAgent for some reason, you can instantiate and use it here
-    # agent = CoreAgent(message)
-    # agent.setup_group_chat()
 
 if __name__ == "__main__":
     main()

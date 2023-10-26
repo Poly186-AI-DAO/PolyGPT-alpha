@@ -28,8 +28,7 @@ def scrape_website(url, objective):
 
     # Send the POST request
     post_url = f"https://chrome.browserless.io/content?token={browserless_api_key}"
-    response = requests.post(post_url, headers=headers, data=data_json)
-
+    response = requests.post(post_url, headers=headers, data=data_json, timeout=10)
     # Check the response status code
     if response.status_code == 200:
         soup = BeautifulSoup(response.content, "html.parser")
