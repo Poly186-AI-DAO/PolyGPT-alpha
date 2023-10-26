@@ -1,4 +1,4 @@
-from autogen import AssistantAgent, UserProxyAgent, config_list_from_json, config_list_openai_aoai
+from autogen import AssistantAgent, UserProxyAgent, config_list_from_json
 
 def planner_agent(message: str):
     # Configuration initialization

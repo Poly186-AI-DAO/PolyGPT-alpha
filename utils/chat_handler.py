@@ -1,7 +1,7 @@
 from enum import Enum, auto
 import logging
 import autogen
-from typing import List, Optional, Dict, Callable
+from typing import List, Optional, Callable
 
 from utils.chat_type import ChatType
 

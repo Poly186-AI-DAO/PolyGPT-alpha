@@ -1,5 +1,4 @@
 import os
-import json
 from autogen.oai.openai_utils import config_list_from_json
 
 class LlmConfiguration:

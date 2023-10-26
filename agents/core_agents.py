@@ -1,12 +1,7 @@
 import logging
-from autogen import AssistantAgent, UserProxyAgent, config_list_openai_aoai
+from autogen import AssistantAgent, UserProxyAgent
 
-import os
-import json
-from agents.internet_agent import internet_agent
 
-from agents.planner_agent import planner_agent
-from agents.research_team import research_team
 from llms_config import LlmConfiguration
 from utils.chat_type import ChatType
 from utils.chat_manager import ChatManager

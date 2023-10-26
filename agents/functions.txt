@@ -1,0 +1,201 @@
+{
+    "name": "read",
+    "description": "Reads content from a specified path for a given task.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "task_id": {
+                "type": "string",
+                "description": "ID of the task."
+            },
+            "path": {
+                "type": "string",
+                "description": "Path to the file or directory to read."
+            }
+        },
+        "required": [
+            "task_id",
+            "path"
+        ]
+    }
+},
+{
+    "name": "write",
+    "description": "Writes data to a specified path for a given task.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "task_id": {
+                "type": "string",
+                "description": "ID of the task."
+            },
+            "path": {
+                "type": "string",
+                "description": "Path to the file or directory to write."
+            },
+            "data": {
+                "type": "bytes",
+                "description": "Data to write."
+            }
+        },
+        "required": [
+            "task_id",
+            "path",
+            "data"
+        ]
+    }
+},
+{
+    "name": "delete",
+    "description": "Deletes content from a specified path for a given task. Can delete directories as well.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "task_id": {
+                "type": "string",
+                "description": "ID of the task."
+            },
+            "path": {
+                "type": "string",
+                "description": "Path to the file or directory to delete."
+            },
+            "directory": {
+                "type": "boolean",
+                "description": "Flag to determine if the target is a directory."
+            },
+            "recursive": {
+                "type": "boolean",
+                "description": "Flag to determine if the deletion should be recursive."
+            }
+        },
+        "required": [
+            "task_id",
+            "path"
+        ]
+    }
+},
+{
+    "name": "exists",
+    "description": "Checks if a specified path exists for a given task.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "task_id": {
+                "type": "string",
+                "description": "ID of the task."
+            },
+            "path": {
+                "type": "string",
+                "description": "Path to the file or directory to check."
+            }
+        },
+        "required": [
+            "task_id",
+            "path"
+        ]
+    }
+},
+{
+    "name": "list",
+    "description": "Lists content in a specified path for a given task.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "task_id": {
+                "type": "string",
+                "description": "ID of the task."
+            },
+            "path": {
+                "type": "string",
+                "description": "Path to the directory to list."
+            }
+        },
+        "required": [
+            "task_id",
+            "path"
+        ]
+    }
+},
+{
+    "name": "create_task",
+    "description": "Creates a new task in the AgentDB.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "input": {
+                "type": "string",
+                "description": "Input for the task."
+            },
+            "additional_input": {
+                "type": "object",
+                "description": "Additional input data for the task."
+            }
+        },
+        "required": [
+            "input"
+        ]
+    }
+},
+{
+    "name": "create_step",
+    "description": "Creates a new step for a task in the AgentDB.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "task_id": {
+                "type": "string",
+                "description": "ID of the task for which the step is created."
+            },
+            "input": {
+                "type": "object",
+                "description": "Input for the step."
+            },
+            "is_last": {
+                "type": "boolean",
+                "description": "Flag to determine if this is the last step."
+            },
+            "additional_input": {
+                "type": "object",
+                "description": "Additional input data for the step."
+            }
+        },
+        "required": [
+            "task_id",
+            "input"
+        ]
+    }
+},
+{
+    "name": "create_artifact",
+    "description": "Creates a new artifact for a task in the AgentDB.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "task_id": {
+                "type": "string",
+                "description": "ID of the task for which the artifact is created."
+            },
+            "file_name": {
+                "type": "string",
+                "description": "Name of the file for the artifact."
+            },
+            "relative_path": {
+                "type": "string",
+                "description": "Relative path of the artifact."
+            },
+            "agent_created": {
+                "type": "boolean",
+                "description": "Flag to determine if the artifact was created by an agent."
+            },
+            "step_id": {
+                "type": "string",
+                "description": "ID of the step associated with the artifact."
+            }
+        },
+        "required": [
+            "task_id",
+            "file_name",
+            "relative_path"
+        ]
+    }
+}

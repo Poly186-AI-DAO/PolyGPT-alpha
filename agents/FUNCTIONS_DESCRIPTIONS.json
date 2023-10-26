@@ -1,0 +1,77 @@
+[
+    {
+        "name": "task_planner",
+        "description": "task planner to: 1. create a plan for finishing a task, 2. verify the execution result of the plan and potentially suggest new plan.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "question to ask planner. Make sure the question include enough context, such as the code and the execution result. The planner does not know the conversation between you and the user, unless you share the conversation with the planner."
+                }
+            },
+            "required": [
+                "message"
+            ]
+        }
+    },
+    {
+        "name": "search",
+        "description": "Searches for a query on google.serper.dev",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query"
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    },
+    {
+        "name": "scrape_website",
+        "description": "Scrapes and summarizes website content",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "description": "URL to scrape"
+                },
+                "objective": {
+                    "type": "string",
+                    "description": "Objective for summary"
+                }
+            },
+            "required": [
+                "url",
+                "objective"
+            ]
+        }
+    },
+    {
+        "name": "summary",
+        "description": "Generates a concise summary",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string",
+                    "description": "Content to summarize"
+                },
+                "objective": {
+                    "type": "string",
+                    "description": "Objective for summary"
+                }
+            },
+            "required": [
+                "content",
+                "objective"
+            ]
+        }
+    }
+
+]
