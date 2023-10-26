@@ -13,7 +13,6 @@ class PolyGPTAgents(Observable):
     def __init__(self, database, workspace):
         super().__init__()
         self.agent_monitors = []
-        self.data_store = {'chat_history': []}
         self.forge_agent = None
         self.database = database
         self.workspace = workspace
@@ -47,19 +46,6 @@ class PolyGPTAgents(Observable):
 
     def start_chat(self, user_input):
         self.agent_initializer.initiate_chat(user_input)
-
-    def retrieve_data(self, data_type: str):
-        return self.data_store.get(data_type)
-
-    def update_chat_history(self):
-        if self.groupchat:
-            chat_history = self.groupchat.messages
-            self.update_data('chat_history', chat_history)
-        if self.manager:
-            manager_history = self.manager.chat_messages
-
-    def update_data(self, data_type: str, new_data: Any):
-        self.data_store[data_type] = new_data
 
     async def receive_notification(self, event: str, data: Any):
         try:
