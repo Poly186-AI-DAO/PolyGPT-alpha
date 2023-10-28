@@ -3,7 +3,7 @@
 - Princepts (CEO)
 - Tonic (CIO)
 - COO - 'Hiring'!
-- Lead Developper - 'Hiring'!
+- Lead Developer - 'Hiring'!
 
 ## What We Do
 
@@ -72,7 +72,7 @@ The motivation behind PolyGPT is to explore avenues beyond the conventional appr
 ### [![Let's build the future of AI together! 🚀🤖](https://discordapp.com/api/guilds/1109943800132010065/widget.png)](https://discord.gg/GWpVpekp)
 
 
-# Developpers
+# Developers
 
 Let's dive right in and get you started on your journey with us!
 
