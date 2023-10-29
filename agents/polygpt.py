@@ -36,8 +36,7 @@ class PolyGPTAgents(Observable):
                 agent, self, self.groupchat, self.manager)
 
             for event_name in agent_monitor.default_monitored_methods:
-                agent_monitor.add_observer(
-                    self.receive_notification, event=event_name)
+                agent_monitor.add_observer(self.receive_notification, event=event_name)
 
             self.agent_monitors.append(agent_monitor)
 
@@ -66,9 +65,9 @@ class PolyGPTAgents(Observable):
 
                 reaction_method(agent, data)
 
-            await self.notify_observers_async(event, data)   # Use await here
+            await self.notify_observers_async(event, data)
 
-        except Exception as e:  # Catch any exception
+        except Exception as e:
             LOG.error(f"Error in receive_notification: {e}")
 
     async def notify_observers_async(self, event: str, data: Any = None):

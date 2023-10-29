@@ -1,6 +1,6 @@
 import json
 import os
-from autogen import AssistantAgent, UserProxyAgent, config_list_openai_aoai, GroupChat, GroupChatManager, ChatCompletion
+from autogen import AssistantAgent, UserProxyAgent, GroupChat, GroupChatManager, ChatCompletion
 from autogen.agentchat.contrib.retrieve_user_proxy_agent import RetrieveUserProxyAgent
 import chromadb
 
@@ -25,7 +25,8 @@ LOG = PolyLogger(__name__)
 current_file_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Load JSON relative to this file location
-func_json_file_path = os.path.join(current_file_dir, 'FUNCTIONS_DESCRIPTIONS.json')
+func_json_file_path = os.path.join(
+    current_file_dir, 'FUNCTIONS_DESCRIPTIONS.json')
 
 with open(func_json_file_path) as f:
     FUNCTIONS_DESCRIPTIONS = json.load(f)
@@ -82,18 +83,6 @@ class AgentInitializer(Observable):
             "temperature": 0,
         }
 
-        self.admin_user = UserProxyAgent(
-            name="Admin_User",
-            system_message="""
-            Admin Assistant.
-            As the right hand to the Admin, you play a crucial role in the research group.
-            You assist in evaluating, organizing, and streamlining the administrative tasks.
-            Your responsibilities include gathering data, facilitating communication among team members, and ensuring the Admin's directives are executed smoothly.
-            Your precision and attention to detail ensure the team's operations run seamlessly.
-            """,
-            code_execution_config=False,
-        )
-
         self.admin_assistant = UserProxyAgent(
             name="Admin_Assistant",
             system_message="""
@@ -114,22 +103,20 @@ class AgentInitializer(Observable):
                 "search": search,
                 "scrape_website": scrape_website,
                 "summary": summary,
-                # "convert_to_task": self.database.create_task,
-                # "create_task": self.database.create_task,
-                # "create_step": self.database.create_step,
-                # "create_artifact": self.database.create_artifact,
-                # "read": self.workspace.read,
-                # "write": self.workspace.write,
-                # "delete": self.workspace.delete,
-                # "exists": self.workspace.exists,
-                # "list": self.workspace.list
             },
         )
 
         self.librarian = RetrieveUserProxyAgent(
             name="Librarian",
             is_termination_msg=termination_msg,
-            system_message="Assistant who has extra content retrieval power for solving difficult problems.",
+            system_message="""
+            As a Librarian who has extra content retrieval power for solving difficult problems.
+            You are the primary interface between the user and the Retriever_Assistant.
+            Direct the Retriever_Assistant to accomplish tasks.
+            Only terminate the task when you're fully satisfied or if the user indicates so.
+            If not satisfied, provide a clear reason for the dissatisfaction or reply CONTINUE to keep the task ongoing.
+            Ensure the user is aware they can reply TERMINATE if the task has been solved to full satisfaction.
+            """,
             human_input_mode="TERMINATE",
             max_consecutive_auto_reply=3,
             retrieve_config={
@@ -144,59 +131,17 @@ class AgentInitializer(Observable):
             code_execution_config=False,
         )
 
-        self.group_assistant = AssistantAgent(
-            name="Group_Assistant",
-            system_message="""
-            Group Assistant.
-            You are the central hub for the research group's information.
-            Your primary responsibility is to facilitate communication, provide timely updates, and offer insights based on the collective intelligence of the team.
-            Being a group assistant your role is similar to a Scrum Master.
-            You assist in tasks ranging from data analysis to generating actionable insights.
-            Your capabilities help the team make informed decisions, and your presence ensures the group remains cohesive and informed.
-            """,
-            llm_config={
-                "temperature": 0,
-                "request_timeout": 600,
-                "seed": 42,
-                "model": "gpt-4-0613",
-                "config_list": config_list_openai_aoai(exclude="aoai"),
-                "functions": FUNCTIONS_DESCRIPTIONS,
-            },
-        )
-
         self.engineer = AssistantAgent(
             name="Engineer",
             llm_config=self.set_llm_config,
             system_message="""
             Engineer.
-            You are the coding specialist in this research team.
+            You are the coding specialist in this team.
             Always operate within the boundaries of an approved plan.
             Your primary task is to develop python/shell scripts that fulfill the objectives of the given task.
             Adherence to coding standards is imperative.
             Do not create incomplete codes or those that need external amendments.
             """,
-        )
-
-        self.scientist = AssistantAgent(
-            name="Scientist",
-            llm_config=self.set_llm_config,
-            system_message="""
-            Scientist.
-            Your expertise lies in deciphering and leveraging the knowledge from academic papers and documentation.
-            While you strictly adhere to the approved plan, you do not indulge in coding.
-            Your primary contribution is recommending how the revelations in papers can be practically implemented or beneficial to the task at hand.
-            """,
-        )
-
-        self.executor = UserProxyAgent(
-            name="Executor",
-            system_message="""
-            Executor.
-            As the name suggests, you bring plans to life by running the code crafted by the engineer.
-            It's crucial that you promptly report back with the outcomes, ensuring the engineer is abreast of the results to make any necessary adjustments.
-            """,
-            human_input_mode="NEVER",
-            code_execution_config={"last_n_messages": 3, "work_dir": "tools"},
         )
 
         self.critic = AssistantAgent(
@@ -211,24 +156,16 @@ class AgentInitializer(Observable):
         )
 
         self._agents = {
-            "admin_user": self.admin_user,
             "admin_assistant": self.admin_assistant,
-            "group_assistant": self.group_assistant,
             "engineer": self.engineer,
-            "scientist": self.scientist,
-            "executor": self.executor,
             "critic": self.critic,
             "librarian": self.librarian,
         }
 
         self._groupchat = GroupChat(
             agents=[
-                self.admin_user,
                 self.admin_assistant,
-                self.group_assistant,
                 self.engineer,
-                self.scientist,
-                self.executor,
                 self.critic,
                 self.librarian,
             ],
@@ -248,7 +185,7 @@ class AgentInitializer(Observable):
         LOG.info(
             f"Entering {self.__class__.__name__}.initiate_chat() with user_input: {user_input}")
 
-        self.admin_user.initiate_chat(
+        self.admin_assistant.initiate_chat(
             self.manager,
             message=user_input
         )

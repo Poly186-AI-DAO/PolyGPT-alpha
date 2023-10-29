@@ -88,9 +88,9 @@ class AutogenMonitor(Observable):
             func.__name__, data_with_agent_name))
 
         # Consolidated logging for args and kwargs
-        LOG.info(
-            f"🔎 {self.agent.name}: {func.__name__} called with ARGS: {args} KWARGS: {kwargs}")
+        # LOG.info(
+        #     f"🔎 {self.agent.name}: {func.__name__} called with ARGS: {args} KWARGS: {kwargs}")
 
     async def notify(self, event, data):
-        LOG.info(f"🔔 {self.agent.name}: NOTIFYING EVENT: {event} DATA: {data}")
         await super().notify_observers_async(event=event, data=data)
+        LOG.info(f"🔔 {self.agent.name}: NOTIFYING EVENT: {event} DATA: {data}")

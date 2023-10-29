@@ -290,6 +290,7 @@ class AgentDB:
             LOG.error(f"SQLAlchemy error while getting task: {e}")
             raise
         except NotFoundError as e:
+            LOG.error(f"NotFoundError while getting task: {e}")
             raise
         except Exception as e:
             LOG.error(f"Unexpected error while getting task: {e}")
@@ -318,6 +319,7 @@ class AgentDB:
             LOG.error(f"SQLAlchemy error while getting step: {e}")
             raise
         except NotFoundError as e:
+            LOG.error(f"NotFoundError while getting step: {e}")
             raise
         except Exception as e:
             LOG.error(f"Unexpected error while getting step: {e}")
@@ -361,6 +363,7 @@ class AgentDB:
             LOG.error(f"SQLAlchemy error while getting step: {e}")
             raise
         except NotFoundError as e:
+            LOG.error(f"NotFoundError while updating step: {e}")
             raise
         except Exception as e:
             LOG.error(f"Unexpected error while getting step: {e}")
@@ -385,6 +388,7 @@ class AgentDB:
             LOG.error(f"SQLAlchemy error while getting artifact: {e}")
             raise
         except NotFoundError as e:
+            LOG.error(f"NotFoundError while getting artifact: {e}")
             raise
         except Exception as e:
             LOG.error(f"Unexpected error while getting artifact: {e}")
@@ -418,6 +422,7 @@ class AgentDB:
             LOG.error(f"SQLAlchemy error while listing tasks: {e}")
             raise
         except NotFoundError as e:
+            LOG.error(f"NotFoundError while listing tasks: {e}")
             raise
         except Exception as e:
             LOG.error(f"Unexpected error while listing tasks: {e}")
@@ -453,6 +458,7 @@ class AgentDB:
             LOG.error(f"SQLAlchemy error while listing steps: {e}")
             raise
         except NotFoundError as e:
+            LOG.error(f"NotFoundError while listing steps: {e}")
             raise
         except Exception as e:
             LOG.error(f"Unexpected error while listing steps: {e}")
@@ -488,6 +494,7 @@ class AgentDB:
             LOG.error(f"SQLAlchemy error while listing artifacts: {e}")
             raise
         except NotFoundError as e:
+            LOG.error(f"NotFoundError while listing artifacts: {e}")
             raise
         except Exception as e:
             LOG.error(f"Unexpected error while listing artifacts: {e}")
