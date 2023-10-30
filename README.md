@@ -4,6 +4,11 @@
 - Tonic (CIO)
 - COO - 'Hiring'!
 - Lead Developper - 'Hiring'!
+- Autogen Developpers - 'Hiring' !
+- Product Owner Hangar - Hexani
+- Product Owner Meta-Introspector - Mike Dupont 2
+- Product Owner "Your Branch/Tool Here" - This Could Be You !
+
 
 ## What We Do
 
