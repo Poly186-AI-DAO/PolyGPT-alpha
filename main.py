@@ -1,7 +1,7 @@
 import os
 from utils.poly_logger import PolyLogger
 from agents.polygpt import PolyGPTAgents
-from utils.sqlalchemy import PolyDatabase
+from utils.poly_sqlalchemy import PolyDatabase
 from utils.workspace import LocalWorkspace
 
 LOG = PolyLogger(__name__)

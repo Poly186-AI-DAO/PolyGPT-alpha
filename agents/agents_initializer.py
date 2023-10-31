@@ -13,7 +13,7 @@ from tools.planner import task_planner
 from tools.scrape_website import scrape_website
 from tools.search import search
 from tools.summary import summary
-from utils.db import AgentDB
+from utils.mongo_db import AgentDB
 from utils.workspace import Workspace
 
 # Create a temporary directory

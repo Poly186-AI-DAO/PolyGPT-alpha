@@ -16,7 +16,7 @@ source "$VENV_NAME/bin/activate"
 # Check if requirements.txt exists, and if so, install the required packages
 if [ -f "requirements.txt" ]; then
     echo "Installing required Python packages..."
-    pip install -r requirements.txt
+    pip install -r requirements.txt`
 else
     echo "No requirements.txt found. Skipping package installation."
 fi
@@ -24,3 +24,17 @@ fi
 # Run the project
 echo "Running main.py..."
 python3 main.py
+
+
+
+# To activate a virtual environment (`venv`), follow the steps based on your operating system:
+
+# 1. **Windows** (assuming you've named your virtual environment "venv"):
+#    ```bash
+#    .\venv\Scripts\Activate
+#    ```
+
+# 2. **macOS and Linux** (assuming you've named your virtual environment "venv"):
+#    ```bash
+#    source venv/bin/activate
+#    ```

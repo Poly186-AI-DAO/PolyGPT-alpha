@@ -4,7 +4,7 @@ from utils.autogen_monitor import AutogenMonitor
 
 from utils.observer import Observable
 from utils.poly_logger import PolyLogger
-from utils.reaction import Reactions
+from utils.reaction import PolyAutogenReact 
 
 LOG = PolyLogger(__name__)
 
@@ -29,7 +29,7 @@ class PolyGPTAgents(Observable):
 
         for agent_name, agent in self.agents.items():
             if agent_name not in self.reactions:
-                self.reactions[agent_name] = Reactions(
+                self.reactions[agent_name] = PolyAutogenReact (
                     agent, self.database, self.workspace)
 
             agent_monitor = AutogenMonitor(

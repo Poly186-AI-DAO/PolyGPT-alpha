@@ -5,7 +5,7 @@ from utils.poly_logger import PolyLogger
 
 LOG = PolyLogger(__name__)
 
-class Reactions:
+class PolyAutogenReact :
     """Handles reactions to method calls."""
 
     def __init__(self, agent, database, workspace):
