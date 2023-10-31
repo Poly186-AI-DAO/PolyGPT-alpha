@@ -187,7 +187,7 @@ logging_config: dict = dict(
         "level": logging.INFO,
     },
     loggers={
-        "autogpt": {
+        "polygpt": {
             "handlers": ["h"],
             "level": logging.INFO,
             "propagate": False,

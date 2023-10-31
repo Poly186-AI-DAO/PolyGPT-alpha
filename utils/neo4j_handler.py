@@ -2,19 +2,14 @@ import os
 
 from langchain.graphs import Neo4jGraph
 from dotenv import load_dotenv
-
-# from chains import (
-#     load_embedding_model,
-# )
-
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import GraphCypherQAChain
 from langchain.graphs import Neo4jGraph
 from langchain.prompts.prompt import PromptTemplate
+from chains import load_embedding_model, load_llm
+from neo4j_helper import configure_llm_only_chain, configure_qa_rag_chain, create_vector_index
+from poly_logger import PolyLogger
 
-# from chains import (
-#     load_embedding_model,
-# )
 
 load_dotenv("../.env")
 
@@ -41,24 +36,21 @@ if not llm_name:
 os.environ["NEO4J_URL"] = url
 
 
-# embeddings, dimension = load_embedding_model(
-#     embedding_model_name,
-#     "openai",
-#     logger=BaseLogger(),
-# )
+embeddings, dimension = load_embedding_model(
+    embedding_model_name,
+    config="openai",
+    logger=PolyLogger(__name__),
+)
 
-# if Neo4j is local, you can go to http://localhost:7474/ to browse the database
 neo4j_graph = Neo4jGraph(url=url, username=username, password=password)
-# create_vector_index(neo4j_graph, dimension)
+create_vector_index(neo4j_graph, dimension)
 
-# llm = load_llm(
-#     llm_name, logger=BaseLogger(), config={"ollama_base_url": ollama_base_url}
-# )
+llm = load_llm(llm_name, logger=PolyLogger(__name__), config="openai")
 
-# llm_chain = configure_llm_only_chain(llm)
-# rag_chain = configure_qa_rag_chain(
-#     llm, embeddings, embeddings_store_url=url, username=username, password=password
-# )
+llm_chain = configure_llm_only_chain(llm)
+rag_chain = configure_qa_rag_chain(
+    llm, embeddings, embeddings_store_url=url, username=username, password=password
+)
 
 
 # Seed the database
