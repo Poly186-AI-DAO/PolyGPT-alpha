@@ -5,9 +5,6 @@ from langchain.chat_models import ChatOpenAI
 from langchain.chains import GraphCypherQAChain
 from langchain.graphs import Neo4jGraph
 from langchain.prompts.prompt import PromptTemplate
-from chains import load_embedding_model, load_llm
-from neo4j_helper import configure_llm_only_chain, configure_qa_rag_chain, create_vector_index
-from poly_logger import PolyLogger
 from langchain.chains import RetrievalQAWithSourcesChain
 from langchain.chat_models import ChatOpenAI
 from langchain.embeddings.openai import OpenAIEmbeddings
@@ -15,6 +12,9 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import Neo4jVector
 from langchain.document_loaders import TextLoader
 from langchain.docstore.document import Document
+
+from utils.chains import load_embedding_model, load_llm
+from utils.poly_logger import PolyLogger
 
 class KnowledgeGraphQuery:
     """
@@ -50,7 +50,7 @@ class KnowledgeGraphQuery:
         self.neo4j_graph.refresh_schema()
         
         # Create a vector index for the graph
-        create_vector_index(self.neo4j_graph, self.dimension)
+        self.create_vector_index(self.neo4j_graph, self.dimension)
 
         # Load the language model
         self.llm = load_llm(self.llm_name, logger=PolyLogger(__name__), config="openai")
@@ -242,3 +242,32 @@ class KnowledgeGraphQuery:
             ChatOpenAI(temperature=0), chain_type="stuff", retriever=retriever
         )
         return chain({"question": question}, return_only_outputs=True)
+
+    def create_vector_index(driver, dimension: int) -> None:
+        index_query = "CALL db.index.vector.createNodeIndex('stackoverflow', 'Question', 'embedding', $dimension, 'cosine')"
+        try:
+            driver.query(index_query, {"dimension": dimension})
+        except:  # Already exists
+            pass
+        index_query = "CALL db.index.vector.createNodeIndex('top_answers', 'Answer', 'embedding', $dimension, 'cosine')"
+        try:
+            driver.query(index_query, {"dimension": dimension})
+        except:  # Already exists
+            pass
+
+
+    def create_constraints(driver):
+        driver.query(
+            "CREATE CONSTRAINT question_id IF NOT EXISTS FOR (q:Question) REQUIRE (q.id) IS UNIQUE"
+        )
+        driver.query(
+            "CREATE CONSTRAINT answer_id IF NOT EXISTS FOR (a:Answer) REQUIRE (a.id) IS UNIQUE"
+        )
+        driver.query(
+            "CREATE CONSTRAINT user_id IF NOT EXISTS FOR (u:User) REQUIRE (u.id) IS UNIQUE"
+        )
+        driver.query(
+            "CREATE CONSTRAINT tag_name IF NOT EXISTS FOR (t:Tag) REQUIRE (t.name) IS UNIQUE"
+        )
+
+

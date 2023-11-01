@@ -1,10 +1,12 @@
 import json
 import os
-from autogen import AssistantAgent, UserProxyAgent, GroupChat, GroupChatManager, ChatCompletion
+from autogen import AssistantAgent, UserProxyAgent, GroupChat, GroupChatManager, ChatCompletion, config_list_openai_aoai
 from autogen.agentchat.contrib.retrieve_user_proxy_agent import RetrieveUserProxyAgent
 import chromadb
 
 import tempfile
+from tools.git_repo_scrapper import git_repo_scraper
+from tools.query_knowledge_graph import query_knowledge_graph
 from utils.observer import Observable
 
 from utils.poly_logger import PolyLogger
@@ -85,13 +87,6 @@ class AgentInitializer(Observable):
 
         self.admin_assistant = UserProxyAgent(
             name="Admin_Assistant",
-            system_message="""
-            Admin Assistant.
-            As the right hand to the Admin, you play a crucial role in the research group.
-            You assist in evaluating, organizing, and streamlining the administrative tasks.
-            Your responsibilities include gathering data, facilitating communication among team members, and ensuring the Admin's directives are executed smoothly.
-            Your precision and attention to detail ensure the team's operations run seamlessly.
-            """,
             is_termination_msg=termination_msg,
             human_input_mode="NEVER",
             max_consecutive_auto_reply=10,
@@ -103,71 +98,33 @@ class AgentInitializer(Observable):
                 "search": search,
                 "scrape_website": scrape_website,
                 "summary": summary,
+                "git_repo_scraper":git_repo_scraper, 
+                "query_knowledge_graph": query_knowledge_graph
             },
-        )
-
-        self.librarian = RetrieveUserProxyAgent(
-            name="Librarian",
-            is_termination_msg=termination_msg,
-            system_message="""
-            As a Librarian who has extra content retrieval power for solving difficult problems.
-            You are the primary interface between the user and the Retriever_Assistant.
-            Direct the Retriever_Assistant to accomplish tasks.
-            Only terminate the task when you're fully satisfied or if the user indicates so.
-            If not satisfied, provide a clear reason for the dissatisfaction or reply CONTINUE to keep the task ongoing.
-            Ensure the user is aware they can reply TERMINATE if the task has been solved to full satisfaction.
-            """,
-            human_input_mode="TERMINATE",
-            max_consecutive_auto_reply=3,
-            retrieve_config={
-                "task": "code",
-                "docs_path": "docs",
-                "chunk_token_size": 1000,
-                "model": config_list_instance.config[0]["model"],
-                "client": chromadb.PersistentClient(path=temp_dir),
-                "collection_name": "groupchat",
-                "get_or_create": True,
-            },
-            code_execution_config=False,
         )
 
         self.engineer = AssistantAgent(
             name="Engineer",
-            llm_config=self.set_llm_config,
-            system_message="""
-            Engineer.
-            You are the coding specialist in this team.
-            Always operate within the boundaries of an approved plan.
-            Your primary task is to develop python/shell scripts that fulfill the objectives of the given task.
-            Adherence to coding standards is imperative.
-            Do not create incomplete codes or those that need external amendments.
-            """,
-        )
-
-        self.critic = AssistantAgent(
-            name="Critic",
-            system_message="""
-            Critic.
-            Your sharp analytical skills are crucial for the team.
-            Your duty is to meticulously review plans, verify claims, and scrutinize codes.
-            Always provide constructive feedback and ensure that every strategy has valid, traceable references such as URLs to ensure the team is grounded in verifiable information.
-            """,
-            llm_config=self.set_llm_config,
+            llm_config={
+                "temperature": 0,
+                "request_timeout": 600,
+                "seed": 42,
+                "model": "gpt-4-0613",
+                "config_list": config_list_openai_aoai(exclude="aoai"),
+                "functions": FUNCTIONS_DESCRIPTIONS
+            }            
         )
 
         self._agents = {
             "admin_assistant": self.admin_assistant,
             "engineer": self.engineer,
-            "critic": self.critic,
-            # "librarian": self.librarian,
+
         }
 
         self._groupchat = GroupChat(
             agents=[
                 self.admin_assistant,
                 self.engineer,
-                self.critic,
-                # self.librarian,
             ],
             messages=[],
             max_round=50

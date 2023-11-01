@@ -5,7 +5,7 @@ from langchain.embeddings import (
     BedrockEmbeddings,
 )
 from langchain.chat_models import ChatOpenAI, ChatOllama, BedrockChat
-from poly_logger import PolyLogger
+from utils.poly_logger import PolyLogger
 
 
 def load_embedding_model(embedding_model_name: str, logger=PolyLogger(__name__), config={}):
