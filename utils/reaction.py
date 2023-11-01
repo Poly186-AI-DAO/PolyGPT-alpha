@@ -17,7 +17,7 @@ class PolyAutogenReact :
     def _log_with_task_step(self, agent_name, message, data):
         task_id = data.get('current_task_id') if data else None
         step_id = data.get('current_step_id') if data else None
-        LOG.info(f"🔔 {agent_name} [Task: {task_id}, Step: {step_id}]: {message}")
+        # LOG.info(f"🔔 {agent_name} [Task: {task_id}, Step: {step_id}]: {message}")
 
     def save_to_db_on_receive(self, data):
         # Assuming data contains task_id and the message received
@@ -27,9 +27,9 @@ class PolyAutogenReact :
             # Create a new step with the message as input
             step_input = {"input": message}
             self.database.create_step(task_id, step_input)
-            LOG.info(f"🔔 {self.agent.name} [Task: {task_id}]: Message received and saved to database.")
-        else:
-            LOG.warning(f"⚠️ {self.agent.name} [Task: {task_id}]: Failed to save received message to database. Task ID or message missing.")
+            # LOG.info(f"🔔 {self.agent.name} [Task: {task_id}]: Message received and saved to database.")
+        # else:
+            # LOG.warning(f"⚠️ {self.agent.name} [Task: {task_id}]: Failed to save received message to database. Task ID or message missing.")
 
     def save_to_db_on_run_code(self, data):
         # Assuming data contains task_id and the code executed

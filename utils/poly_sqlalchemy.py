@@ -64,8 +64,7 @@ class PolyDatabase(AgentDB):
                 session.commit()
                 session.refresh(mew_msg)
                 if self.debug_enabled:
-                    LOG.debug(f"Created new Chat message with task_id: {
-                              mew_msg.msg_id}")
+                    LOG.debug(f"Created new Chat message with task_id: {mew_msg.msg_id}")
                 return mew_msg
         except SQLAlchemyError as e:
             LOG.error(f"SQLAlchemy error while creating task: {e}")
@@ -91,9 +90,7 @@ class PolyDatabase(AgentDB):
                     return [{"role": m.role, "content": m.content} for m in messages]
 
                 else:
-                    LOG.error(
-                        f"Chat history not found with task_id: {task_id}"
-                    )
+                    LOG.error(f"Chat history not found with task_id: {task_id}")
                     raise NotFoundError("Chat history not found")
         except SQLAlchemyError as e:
             LOG.error(f"SQLAlchemy error while getting chat history: {e}")
@@ -118,8 +115,7 @@ class PolyDatabase(AgentDB):
                 session.commit()
                 session.refresh(new_action)
                 if self.debug_enabled:
-                    LOG.debug(f"Created new Action with task_id: {
-                              new_action.action_id}")
+                    LOG.debug(f"Created new Action with task_id: {new_action.action_id}")
                 return new_action
         except SQLAlchemyError as e:
             LOG.error(f"SQLAlchemy error while creating action: {e}")
@@ -145,9 +141,7 @@ class PolyDatabase(AgentDB):
                     return [{"name": a.name, "args": a.args} for a in actions]
 
                 else:
-                    LOG.error(
-                        f"Action history not found with task_id: {task_id}"
-                    )
+                    LOG.error(  f"Action history not found with task_id: {task_id}"  )
                     raise NotFoundError("Action history not found")
         except SQLAlchemyError as e:
             LOG.error(f"SQLAlchemy error while getting action history: {e}")

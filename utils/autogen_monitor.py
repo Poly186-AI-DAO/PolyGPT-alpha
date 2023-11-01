@@ -60,9 +60,9 @@ class AutogenMonitor(Observable):
                 wrapped_method = self.wrap_agent_method(method)
                 setattr(self.agent, method_name, wrapped_method)
                 self.method_wrappers.add(method_name)
-            else:
-                LOG.warning(
-                    f"🚨 {self.agent.name}: METHOD {method_name} NOT FOUND or already wrapped")
+            # else:
+                # LOG.warning(
+                #     f"🚨 {self.agent.name}: METHOD {method_name} NOT FOUND or already wrapped")
 
     def wrap_agent_method(self, func):
         if asyncio.iscoroutinefunction(func):
@@ -93,4 +93,4 @@ class AutogenMonitor(Observable):
 
     async def notify(self, event, data):
         await super().notify_observers_async(event=event, data=data)
-        LOG.info(f"🔔 {self.agent.name}: NOTIFYING EVENT: {event} DATA: {data}")
+        # LOG.info(f"🔔 {self.agent.name}: NOTIFYING EVENT: {event} DATA: {data}")

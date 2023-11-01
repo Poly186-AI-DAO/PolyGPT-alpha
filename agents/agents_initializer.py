@@ -159,7 +159,7 @@ class AgentInitializer(Observable):
             "admin_assistant": self.admin_assistant,
             "engineer": self.engineer,
             "critic": self.critic,
-            "librarian": self.librarian,
+            # "librarian": self.librarian,
         }
 
         self._groupchat = GroupChat(
@@ -167,7 +167,7 @@ class AgentInitializer(Observable):
                 self.admin_assistant,
                 self.engineer,
                 self.critic,
-                self.librarian,
+                # self.librarian,
             ],
             messages=[],
             max_round=50
