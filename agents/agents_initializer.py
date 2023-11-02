@@ -1,8 +1,6 @@
 import json
 import os
 from autogen import AssistantAgent, UserProxyAgent, GroupChat, GroupChatManager, ChatCompletion, config_list_openai_aoai
-from autogen.agentchat.contrib.retrieve_user_proxy_agent import RetrieveUserProxyAgent
-import chromadb
 
 import tempfile
 from tools.git_repo_scrapper import git_repo_scraper
@@ -98,7 +96,7 @@ class AgentInitializer(Observable):
                 "search": search,
                 "scrape_website": scrape_website,
                 "summary": summary,
-                "git_repo_scraper":git_repo_scraper, 
+                "git_repo_scraper": git_repo_scraper,
                 "query_knowledge_graph": query_knowledge_graph
             },
         )
@@ -112,7 +110,15 @@ class AgentInitializer(Observable):
                 "model": "gpt-4-0613",
                 "config_list": config_list_openai_aoai(exclude="aoai"),
                 "functions": FUNCTIONS_DESCRIPTIONS
-            }            
+            },
+            function_map={
+                "task_planner": task_planner,
+                "search": search,
+                "scrape_website": scrape_website,
+                "summary": summary,
+                "git_repo_scraper": git_repo_scraper,
+                "query_knowledge_graph": query_knowledge_graph
+            }
         )
 
         self._agents = {
