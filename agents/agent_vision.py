@@ -78,7 +78,7 @@ def text_to_image_generation(prompt):
         shortened_prompt = prompt[:50]
         filename = f"imgs/{shortened_prompt}_{current_time}.png"
 
-        response = requests.get(image_url)
+        response = requests.get(image_url, timeout=300)
         if response.status_code == 200:
             with open(filename, "wb") as file:
                 file.write(response.content)

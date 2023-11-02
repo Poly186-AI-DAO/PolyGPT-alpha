@@ -21,7 +21,7 @@ def git_repo_scraper(repo_url, branch='main', repo_path='./repo', file_filter=No
 
     logger.info(f"Cloning repository: {repo_url} with branch: {branch}")
     repo = Repo.clone_from(repo_url, to_path=repo_path, branch=branch)
-    
+    logger.info(f"Cloning repository: {repo_url} with branch: {branch}")
     logger.info(f"Loading files from repository: {repo_url}")
     loader = GitLoader(repo_path=repo_path, file_filter=file_filter)
     data = loader.load()
