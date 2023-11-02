@@ -72,7 +72,8 @@ class AgentInitializer(Observable):
         ]
 
         config_list_instance = LlmConfiguration(filter_llms=llm_filters)
-
+        LOG.info(
+            f"config_list_instance: {config_list_instance}")
         def termination_msg(x): return isinstance(
             x, dict) and "TERMINATE" == str(x.get("content", ""))[-9:].upper()
 
@@ -131,8 +132,8 @@ class AgentInitializer(Observable):
 
         self._groupchat = GroupChat(
             agents=[
-                self.admin_assistant,
-                self.engineer,
+                self.ProdMngrPioneer,
+                self.OntoBot,
             ],
             messages=[],
             max_round=50
@@ -150,7 +151,7 @@ class AgentInitializer(Observable):
         LOG.info(
             f"Entering {self.__class__.__name__}.initiate_chat() with user_input: {user_input}")
 
-        self.admin_assistant.initiate_chat(
+        self.ProdMngrPioneer.initiate_chat(
             self.manager,
             message=user_input
         )

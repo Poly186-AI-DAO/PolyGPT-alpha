@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 from autogen import AssistantAgent, UserProxyAgent, config_list_from_json
 import autogen
 import requests
@@ -6,6 +8,11 @@ import http.client
 import json
 import base64
 import replicate
+
+
+load_dotenv("../.env")
+REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN")
+SCENEX_JINA = os.getenv("SCENEX_JINA")
 
 config_list = config_list_from_json(env_or_file="../OAI_CONFIG_LIST.json")
 llm_config = {"config_list": config_list, "request_timeout": 120}
@@ -22,7 +29,7 @@ def img_review(image_url, prompt):
         ]}
 
     headers = {
-        "x-api-key": "token 8uOw4ntevc8JKo0Q3tQq:2975e2827ebeb4e103f7b58c1410ba58fa47bc27b1302de614a000bf51bd2114",
+        "x-api-key": SCENEX_JINA,
         "content-type": "application/json",
     }
 
