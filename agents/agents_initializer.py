@@ -190,7 +190,7 @@ class AgentInitializer(Observable):
         LOG.info(
             f"Entering {self.__class__.__name__}.initiate_chat() with user_input: {user_input}")
 
-        self.user_proxy.initiate_chat(
+        self.ProdMngrPioneer.initiate_chat(
             self.OntoBot,
             message=user_input
         )
