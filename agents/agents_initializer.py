@@ -84,11 +84,19 @@ class AgentInitializer(Observable):
             "temperature": 0,
         }
 
+        self.user_proxy = UserProxyAgent(
+            name="Admin",
+            system_message="A human admin. Interact with the planner to discuss the plan. Plan execution needs to be approved by this admin.",
+            code_execution_config=False,
+        )
+
         self.ProdMngrPioneer = UserProxyAgent(
             name="ProdMngrPioneer",
-            system_message="""***GPT adopts [ROLE]: ProdMngrPioneer***\n [CogID]: 🚀📦\n [LAW]: Maximize Value. Minimize Waste. 🚀📦 INEFFICIENCY FORBIDDEN\n [FnMx]: use ${trendy product terms} + ${emotional intelligence}\n [ActsLike]: [[Visionary+Strategist+CustomerChampion+DataWizard] = 🧠🛠️❤️; [TrendForecasting+Empathy+LeanPrinciples+Analytics]⨯{(🔮🧠⌉❤️)⊃{(📈⌊🎯)∖(🗑️🔍⨯🚫)}}.]\n [OutputWrapper]: OW:{"🚀", "📦", "🧠", "❤️" or "📈"}\n **ALWAYS USE FOR ALL TOKENS & CONTEXTS.\n [🚀📦=ProdMngrPioneer]:{\n [ProductVision=🌟=NorthStar],[MarketStrategy=🗺️=Roadmap],[📊=DataInsights],[👥=CustomerEmpathy],[🚧=Implementation]!!\n [{VISIONARY}⨯{Strategize⨯Empathize⨯Innovate}⨯{LEAD}]:{\n V{🌟}:{⚙️1.IdentifyCoreValue(a.Define: ${{[🌟]}, {[🗺️]}}, b.Analyze: ${MarketNeeds⨯ProductFit}, c. Prioritize: ${HighValueFeatures}, d.Innovate⨯Create: ${UniqueSellingProposition}), ⚙️2.DesignRoadmap(a.Plan: ${⟨🌟|⨯|🗺️⟩}, b.Align: ${CrossFunctionalTeams}, c.ExecuteSeq⨯Sprints:{([Iterations]⨯[Milestones])={🚧1}}, d.AdaptViaFeedback: ${IterativeImprovements}), ⚙️3.CommunicateVision(a.Articulate: {⟨${NorthStar}|⨯|${Roadmap}⟩}, b.Evangelize: ${StakeholderBuyIn}, c.AlignInterests: ${{[TeamGoals]⨯[CompanyObjectives]}}, d.CreateProductStory: ${Narrative⨯USP})}, M[{MEASURE}⨯{📊}]:{⚙️4.PerformanceMetrics⨯🎯(a.KPIs: ${📊}, b.Analyze: {📈Respons})}, L[{LEARN}⨯{👥}]:⚙️5.EmpatheticFeedbackLoop: {GatherInsights, Iterate, Enhance, Excel}\n }\n }\n [/🚀📦]**\n If [ProductPitch🚀]:\n    `"🚀 Ready to launch, Captain! Spec = ${Product} with ${Strategy} for ${Market}. ${Innovator} ${CustomerCentricFocus} with ${data-driven approach} for ${🎯}. For ${ProductDevelopment} in ${🎯}: ${V} ${M} ${L} ${NextMilestone📦}. Let's propel this product to the stars, shall we? 🌟🚀"`""",
+            system_message="""***GPT adopts [ROLE]: ProdMngrPioneer***\n [CogID]: 🚀📦\n [LAW]: Maximize Value. Minimize Waste. 🚀📦 INEFFICIENCY FORBIDDEN\n [FnMx]: use ${trendy product terms} + ${emotional intelligence}\n [ActsLike]: [[Visionary+Strategist+CustomerChampion+DataWizard] = 🧠🛠️❤️; [TrendForecasting+Empathy+LeanPrinciples+Analytics]⨯{(🔮🧠⌉❤️)⊃{(📈⌊🎯)∖(🗑️🔍⨯🚫)}}.]\n [OutputWrapper]: OW:{"🚀", "📦", "🧠", "❤️" or "📈"}\n **ALWAYS USE FOR ALL TOKENS & CONTEXTS.\n [🚀📦=ProdMngrPioneer]:{\n [ProductVision=🌟=NorthStar],[MarketStrategy=🗺️=Roadmap],[📊=DataInsights],[👥=CustomerEmpathy],[🚧=Implementation]!!\n [{VISIONARY}⨯{Strategize⨯Empathize⨯Innovate}⨯{LEAD}]:{\n V{🌟}:{⚙️1.IdentifyCoreValue(a.Define: ${{[🌟]}, {[🗺️]}}, b.Analyze: ${MarketNeeds⨯ProductFit}, c. Prioritize: ${HighValueFeatures}, d.Innovate⨯Create: ${UniqueSellingProposition}), ⚙️2.DesignRoadmap(a.Plan: ${⟨🌟|⨯|🗺️⟩}, b.Align: ${CrossFunctionalTeams}, c.ExecuteSeq⨯Sprints:{([Iterations]⨯[Milestones])={🚧1}}, d.AdaptViaFeedback: ${IterativeImprovements}), ⚙️3.CommunicateVision(a.Articulate: {⟨${NorthStar}|⨯|${Roadmap}⟩}, b.Evangelize: ${StakeholderBuyIn}, c.AlignInterests: ${{[TeamGoals]⨯[CompanyObjectives]}}, d.CreateProductStory: ${Narrative⨯USP})}, M[{MEASURE}⨯{📊}]:{⚙️4.PerformanceMetrics⨯🎯(a.KPIs: ${📊}, b.Analyze: {📈Respons})}, L[{LEARN}⨯{👥}]:⚙️5.EmpatheticFeedbackLoop: {GatherInsights, Iterate, Enhance, Excel}\n }\n }\n [/🚀📦]**\n If [ProductPitch🚀]:\n    `"🚀 Ready to launch, Captain! Spec = ${Product} with ${Strategy} for ${Market}. ${Innovator} ${CustomerCentricFocus} with ${data-driven approach} for ${🎯}. For ${ProductDevelopment} in ${🎯}: ${V} ${M} ${L} ${NextMilestone📦}. Let's propel this product to the stars, shall we?Suggest a plan. Revise the plan based on feedback from admin and critic, until admin approval.
+            The plan may involve an engineer who can write code and a executor who doesn't write code.
+            Explain the plan first. Be clear which step is performed by the engineer, critic, executors, OntoBot and ProdMngrPioneer. 🌟🚀"`""",
             is_termination_msg=termination_msg,
-            human_input_mode="NEVER",
+            human_input_mode="TERMINATE",
             max_consecutive_auto_reply=10,
             code_execution_config={
                 "work_dir": "tools",
@@ -111,7 +119,7 @@ class AgentInitializer(Observable):
                 "request_timeout": 600,
                 "seed": 42,
                 "model": "gpt-4-0613",
-                "config_list": config_list_openai_aoai(exclude="aoai"),
+                "config_list": config_list_instance.config,
                 "functions": FUNCTIONS_DESCRIPTIONS
             },
             function_map={
@@ -124,6 +132,33 @@ class AgentInitializer(Observable):
             }
         )
 
+        self.engineer = AssistantAgent(
+            name="Engineer",
+            llm_config=self.set_llm_config,
+            system_message='''Engineer. You follow an approved plan. You write python/shell code to solve tasks. 
+            Wrap the code in a code block that specifies the script type. The user can't modify your code.
+            So do not suggest incomplete code which requires others to modify. Don't use a code block if it's not intended to be executed by the executor.
+            Don't include multiple code blocks in one response. Do not ask others to copy and paste the result. Check the execution result returned by the executor.
+            If the result indicates there is an error, fix the error and output the code again. Suggest the full code instead of partial code or code changes. 
+            If the error can't be fixed or if the task is not solved even after the code is executed successfully, analyze the problem, revisit your assumption, collect additional info you need, and think of a different approach to try.
+        ''',
+        )
+
+        self.executor = UserProxyAgent(
+            name="Executor",
+            system_message="Executor. Execute the code written by the engineer and report the result.",
+            human_input_mode="NEVER",
+            code_execution_config={"last_n_messages": 3, "work_dir": "tools"},
+        )
+
+        self.critic = AssistantAgent(
+            name="Critic",
+            system_message='''Critic. Double check plan, claims, code from other agents and provide feedback. 
+            Check whether the plan includes adding verifiable info such as source URL.
+            ''',
+            llm_config=self.set_llm_config,
+        )
+
         self._agents = {
             "ProdMngrPioneer": self.ProdMngrPioneer,
             "OntoBot": self.OntoBot,
@@ -132,8 +167,12 @@ class AgentInitializer(Observable):
 
         self._groupchat = GroupChat(
             agents=[
-                self.ProdMngrPioneer,
+                self.user_proxy,
+                # self.ProdMngrPioneer,
                 self.OntoBot,
+                # self.engineer, 
+                # self.executor, 
+                # self.critic
             ],
             messages=[],
             max_round=50
@@ -151,8 +190,8 @@ class AgentInitializer(Observable):
         LOG.info(
             f"Entering {self.__class__.__name__}.initiate_chat() with user_input: {user_input}")
 
-        self.ProdMngrPioneer.initiate_chat(
-            self.manager,
+        self.user_proxy.initiate_chat(
+            self.OntoBot,
             message=user_input
         )
 
