@@ -116,7 +116,19 @@
                 "question"
             ]
         }
+    },
+    {
+        "name": "retrieve_content",
+        "description": "retrieve content for code generation and question answering.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "Refined message which keeps the original meaning and can be used to retrieve content for code generation and question answering."
+                }
+            },
+            "required": ["message"]
+        }
     }
-    
-
 ]

@@ -1,10 +1,11 @@
+import argparse
 from dotenv import load_dotenv
 import json
 import os
 import requests
 from bs4 import BeautifulSoup
 
-from tools.summary import summary
+from summary import summary
 from langchain.document_loaders import BrowserlessLoader
 from langchain.vectorstores import Neo4jVector
 from langchain.embeddings.openai import OpenAIEmbeddings
@@ -73,3 +74,36 @@ def scrape_website(url, objective):
     else:
         print(f"HTTP request failed with status code {response.status_code}")
         return None
+
+
+
+def main():
+    # Create the parser
+    parser = argparse.ArgumentParser(description="Scrape a website and summarize its content.")
+    
+    # Add the arguments
+    parser.add_argument('json_args', type=str, help='JSON string containing the URL and the objective.')
+    
+    # Parse the arguments
+    args = parser.parse_args()
+    
+    # Parse the JSON argument
+    try:
+        arguments = json.loads(args.json_args)
+        url = arguments['url']
+        objective = arguments['objective']
+    except (json.JSONDecodeError, KeyError):
+        raise ValueError("Invalid JSON argument. Please provide a valid JSON string with 'url' and 'objective' keys.")
+    
+    # Call the scrape_website function with the parsed URL and objective
+    result = scrape_website(url, objective)
+    
+    # Print the result
+    if result is not None:
+        print(json.dumps(result, indent=2))
+    else:
+        print("Failed to scrape and summarize the website.")
+
+# Check if the script is run directly (not imported)
+if __name__ == "__main__":
+    main()
