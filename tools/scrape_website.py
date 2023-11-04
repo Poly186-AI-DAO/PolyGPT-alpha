@@ -5,10 +5,11 @@ import os
 import requests
 from bs4 import BeautifulSoup
 
-from summary import summary
 from langchain.document_loaders import BrowserlessLoader
 from langchain.vectorstores import Neo4jVector
 from langchain.embeddings.openai import OpenAIEmbeddings
+
+from tools.summary import summary
 
 load_dotenv('.env')
 browserless_api_key = os.getenv('BROWSERLESS_API_KEY')

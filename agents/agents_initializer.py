@@ -89,8 +89,8 @@ class AgentInitializer(Observable):
         self.boss = UserProxyAgent(
             name="Boss",
             is_termination_msg=termination_msg,
-            human_input_mode="TERMINATE",
-            system_message="The boss who ask questions and give tasks.",
+            human_input_mode="ALWAYS",
+            system_message="The boss who ask questions and give tasks. Retrieve concent when there is need for more information from the documentation ",
         )
 
         self.boss_aid = RetrieveUserProxyAgent(
@@ -115,14 +115,14 @@ class AgentInitializer(Observable):
         self.coder = AssistantAgent(
             name="Senior_Python_Engineer",
             is_termination_msg=termination_msg,
-            system_message="You are a senior python engineer. ",
+            system_message="You are a senior python engineer. To write the best code, Retrieve concent when there is need for more information from the documentation ",
             llm_config=self.set_llm_config,
         )
 
         self.pm = AssistantAgent(
             name="Product_Manager",
             is_termination_msg=termination_msg,
-            system_message="You are a product manager. ",
+            system_message="You are a product manager. for the best plan retrieve content needed based on the request.  ",
             llm_config=self.set_llm_config,
         )
 
@@ -148,12 +148,12 @@ class AgentInitializer(Observable):
         # Register functions for all agents
         common_function_map = {
             "retrieve_content": retrieve_content,
-            "task_planner": task_planner,
-            "search": search,
-            "scrape_website": scrape_website,
-            "summary": summary,
-            "git_repo_scraper": git_repo_scraper,
-            "query_knowledge_graph": query_knowledge_graph
+            # "task_planner": task_planner,
+            # "search": search,
+            # "scrape_website": scrape_website,
+            # "summary": summary,
+            # "git_repo_scraper": git_repo_scraper,
+            # "query_knowledge_graph": query_knowledge_graph
         }
 
         for agent in [self.boss, self.coder, self.pm, self.reviewer]:
