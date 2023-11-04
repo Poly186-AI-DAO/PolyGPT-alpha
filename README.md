@@ -1,3 +1,160 @@
+# **PolyGPT-Alpha**
+
+1. 🌟Star and 👩🏻‍🌾Fork this Repo !
+![image](https://github.com/Tonic-AI/PolyGPT-alpha/assets/18212928/16ad3b67-4431-4569-839f-2491c8e0ff47)
+## **Objective:**
+
+Craft an AI DAO framework, "PolyGPT", that stands at the intersection of advanced AI capabilities and the decentralized ethos of DAOs (Decentralized Autonomous Organizations). This framework aims to empower any organization or individual to set up a DAO where AI agents, rooted in cutting-edge Large Language Models (LLMs), autonomously manage, create, market, and serve products and services to communities and customers.
+
+## **Overview:**
+
+PolyGPT is a pioneering initiative, envisaged as a holistic AI DAO framework. It's designed to transcend the boundaries between artificial intelligence and organizational autonomy. By leveraging the robustness of AI, PolyGPT presents a vision where DAOs are not just administrated by humans but are enhanced by AI agents that can participate actively in a myriad of tasks, from product creation to community engagement.
+
+## **Core Features and Goals:**
+
+1. **AI-Driven Product Development**: Enables AI agents to autonomously conceptualize, design, refine, and release products and services in alignment with market dynamics and community preferences.
+   
+2. **Automated Marketing Mechanics**: Provides tools and protocols for AI agents to design and execute marketing campaigns, broadening the reach and appeal of products and services.
+   
+3. **Service and Product Management**: Equips AI agents with the capacity to efficiently dispense products and services, assimilate feedback, troubleshoot issues, and continuously enhance offerings based on user inputs.
+   
+4. **Community and AI Symbiosis**: Facilitates meaningful interactions between AI agents and the community, nurturing a reciprocal relationship where feedback and engagement drive mutual growth.
+   
+5. **Adaptive Learning and Evolution**: Imbues the DAO with self-improvement capabilities, ensuring it remains resilient, adaptive, and innovative.
+   
+6. **Modularity and Integration**: Constructs a harmonious ecosystem where every module, from AI agents to the community interface, is seamlessly interconnected, fostering fluid operations and scalability.
+
+**Disclaimer**: Please note that PolyGPT is a work in progress. The features, objectives, and overall structure are subject to change as the project evolves. Users and contributors are encouraged to stay updated with the latest documentation and project announcements to ensure compatibility and take advantage of new enhancements. Your feedback and suggestions are invaluable in refining and advancing this framework.
+
+## Get Ready (Windows)
+
+1. Install Python and Pip Using [these instructions](https://docs.python.org/3.11/using/windows.html) .
+
+## Windows 
+
+1. Click Start (Menu)
+
+2. Search for Command Prompt
+
+![image](https://github.com/Tonic-AI/PolyGPT-alpha/assets/18212928/a9b57098-2427-4f4c-9d5a-37b018694011)
+
+4. Select run as administrator
+
+5. Follow the rest of the instructions below
+
+## Windows Install 
+
+1. Download this repository by selecting Zip , Github Desktop or typing the following command in your command prompt
+
+```bash
+https://github.com/Tonic-AI/PolyGPT-alpha.git
+```
+
+![image](https://github.com/Tonic-AI/PolyGPT-alpha/assets/18212928/23adc736-a7b0-4076-b01d-82569a9391bb)
+
+
+2. Unzip if required , Find the path of the folder, click run command prompt
+
+![image](https://github.com/Tonic-AI/PolyGPT-alpha/assets/18212928/da98ce01-f9a7-4d1f-a2fa-7919c89c6fb6)
+
+
+or type the following command in the command line
+
+
+```bash
+cd ./PolyGPT-alpha
+```
+
+3. Install project dependencies with the following commands :
+
+```bash
+pip install git gitpython langchain python-dotenv 
+```
+
+4.Configure PolyGPT-alpha
+
+a. Edit the ```.env.example``` file 
+
+b. Add your keys 
+
+c. Save this file as ```.env```
+
+![image](https://github.com/Tonic-AI/PolyGPT-alpha/assets/18212928/6156f970-d1e4-4ae7-8dec-b24d934a43fc)
+
+d. Edit the ```OAI_CONFIG_LIST.json.example``` file 
+
+e. Add your keys 
+
+f. Save this file as ```OAI_CONFIG_LIST.json```
+
+![image](https://github.com/Tonic-AI/PolyGPT-alpha/assets/18212928/0f152d13-5c74-48cd-b4da-bd612e7f55fa)
+
+5. Install PolyGPT-alpha
+
+```bash
+pip install requirements.txt
+```
+
+6. Run PolyGPT-alpha
+
+```bash
+python main.py
+```
+
+![image](https://github.com/Tonic-AI/PolyGPT-alpha/assets/18212928/504f4aa7-5653-4a9d-99e4-65c00b4e92b2)
+![image](https://github.com/Tonic-AI/PolyGPT-alpha/assets/18212928/9b07adfe-04f8-48f7-820c-312d93ed1fc9)
+
+
+## Linux Install
+
+
+1. Command Line
+
+```bash
+git clone https://github.com/Tonic-AI/PolyGPT-alpha.git
+```
+
+```bash
+cd ./PolyGPT-alpha
+```
+
+```bash
+pip install git gitpython langchain python-dotenv 
+```
+
+
+```bash
+Nano .env.example
+``` 
+
+Edit then ```^c``` & ```s``` + ```.env```
+
+```bash
+nano OAI_CONFIG_LIST.json.example
+```  
+
+Edit then ```^c``` & ```s``` +  ```OAI_CONFIG_LIST.json```
+
+
+```bash
+pip install requirements.txt
+```
+
+
+```bash
+python main.py
+```
+
+![image](https://github.com/Tonic-AI/PolyGPT-alpha/assets/18212928/504f4aa7-5653-4a9d-99e4-65c00b4e92b2)
+![image](https://github.com/Tonic-AI/PolyGPT-alpha/assets/18212928/9b07adfe-04f8-48f7-820c-312d93ed1fc9)
+
+
+
+---
+**Disclaimer**: Please note that PolyGPT is a work in progress. The features, objectives, and overall structure are subject to change as the project evolves. Users and contributors are encouraged to stay updated with the latest documentation and project announcements to ensure compatibility and take advantage of new enhancements. Your feedback and suggestions are invaluable in refining and advancing this framework.
+
+---
+
 ## Meet the Team
 
 - Princepts (CEO)
