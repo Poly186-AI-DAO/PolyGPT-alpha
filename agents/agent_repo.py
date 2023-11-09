@@ -5,14 +5,14 @@ from autogen.agentchat.contrib.retrieve_user_proxy_agent import RetrieveUserProx
 import chromadb
 
 import tempfile
+from modules.core_llm.llms_config import LlmConfiguration
+from modules.tool_integration.tools.planner import task_planner
+from modules.tool_integration.tools.scrape_website import scrape_website
+from modules.tool_integration.tools.search import search
+from modules.tool_integration.tools.summary import summary
 from utils.observer import Observable
 
 from utils.poly_logger import PolyLogger
-from llms_config import LlmConfiguration
-from tools.planner import task_planner
-from tools.scrape_website import scrape_website
-from tools.search import search
-from tools.summary import summary
 from utils.mongo_db import AgentDB
 from utils.workspace import Workspace
 
