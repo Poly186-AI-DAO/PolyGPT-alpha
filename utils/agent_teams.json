@@ -1,4 +1,4 @@
-[
+ [
     {
         "name": "research_team",
         "description": "The research_team function activates a sophisticated multi-agent conversation system designed for academic and technical research purposes. It comprises a diverse set of roles, including an Engineer who provides code, a Scientist capable of understanding and discussing academic papers, a Planner who suggests research plans, an Executor to run the code, and a Critic to ensure the quality of the entire discussion and output. By initializing this team, you're unlocking a collaborative digital research environment to dissect, investigate, and discuss a given topic.",

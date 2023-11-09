@@ -1,5 +1,4 @@
 import os
-import json
 from autogen.oai.openai_utils import config_list_from_json
 
 class LlmConfiguration:
@@ -39,3 +38,4 @@ class LlmConfiguration:
 
     def __getitem__(self, key):
         return self.config[key]
+

@@ -1,0 +1,48 @@
+[
+    {
+        "name": "retrieve_content",
+        "description": "retrieve content for code generation and question answering.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "Refined message which keeps the original meaning and can be used to retrieve content for code generation and question answering."
+                }
+            },
+            "required": ["message"]
+        }
+    }, 
+    {
+        "name": "task_planner",
+        "description": "task planner to: 1. create a plan for finishing a task, 2. verify the execution result of the plan and potentially suggest new plan.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "question to ask planner. Make sure the question include enough context, such as the code and the execution result. The planner does not know the conversation between you and the user, unless you share the conversation with the planner."
+                }
+            },
+            "required": [
+                "message"
+            ]
+        }
+    },
+    {
+        "name": "search",
+        "description": "Searches for a query on google.serper.dev",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query"
+                }
+            },
+            "required": [
+                "query"
+            ]
+        }
+    }
+]

@@ -1,3 +1,79 @@
+# PolyGPT: An Overview of Agent-Based System Architecture for Autonomous Business Operations
+
+---
+
+## **Executive Summary (TL;DR)**
+
+PolyGPT is a system architecture used to enhance task management within AI-driven decentralized autonomous organizations (DAOs). It acts like a "digital factory," generating specialized software agents—or teams of agents—that are tailor-made to perform specific projects and tasks.
+
+These agents are produced through a hierarchy of 'factories' within the system: a Global Factory that oversees the process, and Specialized Factories that create the agents with the appropriate skills for specific jobs. Once deployed, these agents autonomously handle a wide range of operations, from software development to customer support, depending on their programming.
+
+The system includes a central knowledge base that the agents use to inform their actions and to which they contribute new insights they gain from task completion. This makes PolyGPT a self-improving system, as agent performance is continuously monitored and optimized.
+
+PolyGPT is designed to be modular and extensible, suitable for various industries and adaptable to different organizational needs. It aims to automate business processes, reduce errors, and improve efficiency, and is available as an open-source solution to benefit a broad user base.
+
+### **Why does PolyGPT exist?**
+
+PolyGPT exists to provide a structured, dynamic, and adaptable architecture that enables seamless creation and coordination of specialized agent teams for diverse project and task execution within an AI DAO environment.
+
+### **How does PolyGPT achieve its purpose?**
+
+PolyGPT achieves its purpose through a hierarchical system of factories and databases that leverage comprehensive documentation and GitHub projects to construct specialized agents and tools. It employs a communication framework centered on project and task creation, ensuring that all teams are well-informed and engaged with relevant objectives.
+
+### **What is PolyGPT?**
+
+PolyGPT is a framework and technology stack for building and managing a complex network of agents and their interactions within an AI DAO. It's designed to streamline processes and facilitate automated task management and is offered as an open-source solution for widespread adoption.
+
+---
+
+## Getting Started with PolyGPT-Alpha (Using Poetry)
+
+To work on PolyGPT-Alpha, you need to have Python installed along with Poetry for dependency management. Follow these steps to set up your environment:
+
+### Installation and Setup with Poetry
+
+1. **Install Poetry**:
+   - Visit the [official Poetry installation guide](https://python-poetry.org/docs/#installation) and follow the instructions for your operating system.
+
+2. **Clone the Repository**:
+   - Use Git to clone the PolyGPT-Alpha repository to your local machine:
+
+     ```bash
+     git clone https://github.com/Tonic-AI/PolyGPT-alpha.git
+     ```
+
+3. **Navigate to the Project Directory**:
+   - Change into the cloned repository's directory:
+
+     ```bash
+     cd PolyGPT-alpha
+     ```
+
+4. **Initialize the Project with Poetry**:
+   - Run the following command to install all dependencies using Poetry:
+
+     ```bash
+     poetry install
+     ```
+
+5. **Activate the Virtual Environment**:
+   - You can activate the Poetry-created virtual environment for your project with:
+
+     ```bash
+     poetry shell
+     ```
+
+6. **Run PolyGPT-Alpha**:
+   - Now, you can run PolyGPT-Alpha using Poetry:
+
+     ```bash
+     poetry run python main.py
+     ```
+
+By following these steps, you will have a fully functional development environment to work on and contribute to the PolyGPT-Alpha project using Poetry for dependency management.
+
+---
+
 # **PolyGPT-Alpha**
 
 1. 🌟Star and 👩🏻‍🌾Fork this Repo !
@@ -26,129 +102,6 @@ PolyGPT is a pioneering initiative, envisaged as a holistic AI DAO framework. It
 
 **Disclaimer**: Please note that PolyGPT is a work in progress. The features, objectives, and overall structure are subject to change as the project evolves. Users and contributors are encouraged to stay updated with the latest documentation and project announcements to ensure compatibility and take advantage of new enhancements. Your feedback and suggestions are invaluable in refining and advancing this framework.
 
-## Get Ready (Windows)
-
-1. Install Python and Pip Using [these instructions](https://docs.python.org/3.11/using/windows.html) .
-
-## Windows 
-
-1. Click Start (Menu)
-
-2. Search for Command Prompt
-
-![image](https://github.com/Tonic-AI/PolyGPT-alpha/assets/18212928/a9b57098-2427-4f4c-9d5a-37b018694011)
-
-4. Select run as administrator
-
-5. Follow the rest of the instructions below
-
-## Windows Install 
-
-1. Download this repository by selecting Zip , Github Desktop or typing the following command in your command prompt
-
-```bash
-https://github.com/Tonic-AI/PolyGPT-alpha.git
-```
-
-![image](https://github.com/Tonic-AI/PolyGPT-alpha/assets/18212928/23adc736-a7b0-4076-b01d-82569a9391bb)
-
-
-2. Unzip if required , Find the path of the folder, click run command prompt
-
-![image](https://github.com/Tonic-AI/PolyGPT-alpha/assets/18212928/da98ce01-f9a7-4d1f-a2fa-7919c89c6fb6)
-
-
-or type the following command in the command line
-
-
-```bash
-cd ./PolyGPT-alpha
-```
-
-3. Install project dependencies with the following commands :
-
-```bash
-pip install git gitpython langchain python-dotenv 
-```
-
-4.Configure PolyGPT-alpha
-
-a. Edit the ```.env.example``` file 
-
-b. Add your keys 
-
-c. Save this file as ```.env```
-
-![image](https://github.com/Tonic-AI/PolyGPT-alpha/assets/18212928/6156f970-d1e4-4ae7-8dec-b24d934a43fc)
-
-d. Edit the ```OAI_CONFIG_LIST.json.example``` file 
-
-e. Add your keys 
-
-f. Save this file as ```OAI_CONFIG_LIST.json```
-
-![image](https://github.com/Tonic-AI/PolyGPT-alpha/assets/18212928/0f152d13-5c74-48cd-b4da-bd612e7f55fa)
-
-5. Install PolyGPT-alpha
-
-```bash
-pip install requirements.txt
-```
-
-6. Run PolyGPT-alpha
-
-```bash
-python main.py
-```
-
-![image](https://github.com/Tonic-AI/PolyGPT-alpha/assets/18212928/504f4aa7-5653-4a9d-99e4-65c00b4e92b2)
-![image](https://github.com/Tonic-AI/PolyGPT-alpha/assets/18212928/9b07adfe-04f8-48f7-820c-312d93ed1fc9)
-
-
-## Linux Install
-
-
-1. Command Line
-
-```bash
-git clone https://github.com/Tonic-AI/PolyGPT-alpha.git
-```
-
-```bash
-cd ./PolyGPT-alpha
-```
-
-```bash
-pip install git gitpython langchain python-dotenv 
-```
-
-
-```bash
-Nano .env.example
-``` 
-
-Edit then ```^c``` & ```s``` + ```.env```
-
-```bash
-nano OAI_CONFIG_LIST.json.example
-```  
-
-Edit then ```^c``` & ```s``` +  ```OAI_CONFIG_LIST.json```
-
-
-```bash
-pip install requirements.txt
-```
-
-
-```bash
-python main.py
-```
-
-![image](https://github.com/Tonic-AI/PolyGPT-alpha/assets/18212928/504f4aa7-5653-4a9d-99e4-65c00b4e92b2)
-![image](https://github.com/Tonic-AI/PolyGPT-alpha/assets/18212928/9b07adfe-04f8-48f7-820c-312d93ed1fc9)
-
-
 
 ---
 **Disclaimer**: Please note that PolyGPT is a work in progress. The features, objectives, and overall structure are subject to change as the project evolves. Users and contributors are encouraged to stay updated with the latest documentation and project announcements to ensure compatibility and take advantage of new enhancements. Your feedback and suggestions are invaluable in refining and advancing this framework.
@@ -157,7 +110,7 @@ python main.py
 
 ## Meet the Team
 
-- Princepts (CEO)
+- Princeps (CEO)
 - Tonic (CIO)
 - COO - 'Hiring'!
 - Lead Developper - 'Hiring'!

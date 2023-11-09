@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "polygpt"
+version = "0.1.0"
+description = "PolyGPT is a system architecture used to enhance task management within AI-driven decentralized autonomous organizations (DAOs). It functions like a \"digital factory\" that generates specialized software agents—or teams of agents—that are tailor-made to perform particular projects and tasks."
+authors = ["Prinecps Polaris <polycapn@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pyautogen = "^0.1.14"
+gitpython = "^3.1.40"
+langchain = "^0.0.332"
+beautifulsoup4 = "^4.12.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
