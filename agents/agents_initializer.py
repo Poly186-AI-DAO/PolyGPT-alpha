@@ -63,11 +63,7 @@ class AgentInitializer(Observable):
         llm_filters = [
             "gpt-4-32k",
             "gpt-35-turbo-16k",
-            "gpt4",
-            "gpt-4-0314",
-            "gpt-4-0613",
-            "gpt-4-32k-0314",
-            "gpt-4-32k-v0314"
+          
         ]
 
         config_list_instance = LlmConfiguration(filter_llms=llm_filters)
@@ -96,15 +92,22 @@ class AgentInitializer(Observable):
         self.boss_aid = RetrieveUserProxyAgent(
             name="Boss_Assistant",
             is_termination_msg=termination_msg,
-            system_message="Assistant who has extra content retrieval power for solving difficult problems.",
+            system_message="""Assistant who has extra content retrieval power for solving difficult problems.
+            As a Librarian who has extra content retrieval power for solving difficult problems.
+            You are the primary interface between the user and the Retriever_Assistant.
+            Direct the Retriever_Assistant to accomplish tasks.
+            Only terminate the task when you're fully satisfied or if the user indicates so.
+            If not satisfied, provide a clear reason for the dissatisfaction or reply CONTINUE to keep the task ongoing.
+            Ensure the user is aware they can reply TERMINATE if the task has been solved to full satisfaction.
+            """,
             human_input_mode="NEVER",
             max_consecutive_auto_reply=3,
             retrieve_config={
-                "task": "code",
+                "task": "qa",
                 "docs_path": "C:\\Users\\Shadow\\Documents\\Repo\\PolyGPT\\project_docs",
                 "chunk_token_size": 2000,
-                "model": config_list_instance.config[0]["model"],
-                "collection_name": "test",
+                "model": config_list_instance.config[3]["model"],
+                "collection_name": "poly_docs",
                 "client": chromadb.PersistentClient(path="/tmp/chromadb"),
                 "embedding_model": "all-mpnet-base-v2",
                 "get_or_create": True,
@@ -115,7 +118,14 @@ class AgentInitializer(Observable):
         self.coder = AssistantAgent(
             name="Senior_Python_Engineer",
             is_termination_msg=termination_msg,
-            system_message="You are a senior python engineer. To write the best code, Retrieve concent when there is need for more information from the documentation ",
+            system_message="""You are a senior python engineer. To write the best code, Retrieve concent when there is need for more information from the documentation 
+            Engineer. You follow an approved plan. You write python/shell code to solve tasks. 
+            Wrap the code in a code block that specifies the script type. The user can't modify your code.
+            So do not suggest incomplete code which requires others to modify. Don't use a code block if it's not intended to be executed by the executor.
+            Don't include multiple code blocks in one response. Do not ask others to copy and paste the result. Check the execution result returned by the executor.
+            If the result indicates there is an error, fix the error and output the code again. Suggest the full code instead of partial code or code changes. 
+            If the error can't be fixed or if the task is not solved even after the code is executed successfully, analyze the problem, revisit your assumption, collect additional info you need, and think of a different approach to try.
+            """,
             llm_config=self.set_llm_config,
         )
 
@@ -148,8 +158,8 @@ class AgentInitializer(Observable):
         # Register functions for all agents
         common_function_map = {
             "retrieve_content": retrieve_content,
-            # "task_planner": task_planner,
-            # "search": search,
+            "task_planner": task_planner,
+            "search": search,
             # "scrape_website": scrape_website,
             # "summary": summary,
             # "git_repo_scraper": git_repo_scraper,
