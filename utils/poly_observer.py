@@ -1,9 +1,9 @@
 import asyncio
 import inspect
-# Import PolyLogger instead of logging
-from poly_logger import PolyLogger
 
+from utils.poly_logger import PolyLogger
 # Create a logger instance from PolyLogger
+
 logger = PolyLogger(__name__)
 
 class PolyObservable:

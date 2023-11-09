@@ -1,5 +1,6 @@
 from autogen import AssistantAgent, UserProxyAgent
-from llms_config import LlmConfiguration
+
+from modules.core_llm.llms_config import LlmConfiguration
 
 # Instantiate the LlmConfiguration with filtering
 llm_filters = [

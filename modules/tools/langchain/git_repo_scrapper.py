@@ -4,7 +4,7 @@ import queue
 import json
 from git import Repo
 from langchain.document_loaders import GitLoader
-from utils.neo4j_wrapper import KnowledgeGraphQuery
+from modules.memory.neo4j_wrapper import KnowledgeGraphQuery
 
 from utils.poly_logger import PolyLogger
 from langchain.docstore.document import Document

@@ -3,7 +3,8 @@ import logging
 import autogen
 from typing import List, Optional, Callable
 
-from utils.chat_type import ChatType
+from utils.autogen.chat_type import ChatType
+
 
 
 # Initialize the logger

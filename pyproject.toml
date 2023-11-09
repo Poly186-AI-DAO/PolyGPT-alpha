@@ -11,6 +11,7 @@ pyautogen = "^0.1.14"
 gitpython = "^3.1.40"
 langchain = "^0.0.332"
 beautifulsoup4 = "^4.12.2"
+replicate = "^0.18.1"
 
 
 [build-system]

@@ -1,8 +1,8 @@
 import asyncio
 import functools
 
-from utils.observer import Observable
 from utils.poly_logger import PolyLogger
+from utils.poly_observer import PolyObservable
 
 
 LOG = PolyLogger(__name__)
@@ -15,7 +15,7 @@ This can be very powerful for debugging, metrics collection, or other cross-cutt
 """
 
 
-class AutogenMonitor(Observable):
+class AutogenMonitor(PolyObservable):
     def __init__(self, agent, polygpt_agents, groupchat, manager, methods_to_monitor=None):
         super().__init__()  # Call the __init__ method of Observable
 

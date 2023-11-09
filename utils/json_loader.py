@@ -1,13 +1,30 @@
 import json
 import os
-from poly_logger import PolyLogger, LogLevel  # Ensure this path matches where your PolyLogger is located
+
+from utils.poly_logger import LogLevel, PolyLogger
 
 # Initialize logger
 logger = PolyLogger(__name__)
 
+def find_json_file(start_dir, filename):
+    """
+    Recursively search for a JSON file starting from the given directory.
+
+    Args:
+    - start_dir (str): The starting directory for the search.
+    - filename (str): The name of the JSON file to find.
+
+    Returns:
+    - str: The path to the JSON file if found, otherwise None.
+    """
+    for root, dirs, files in os.walk(start_dir):
+        if filename in files:
+            return os.path.join(root, filename)
+    return None
+
 def load_json(filename):
     """
-    Load a JSON file from the 'json' directory located at the project root.
+    Load a JSON file by searching the entire project directory.
     
     Args:
     - filename (str): The name of the JSON file to load.
@@ -25,10 +42,12 @@ def load_json(filename):
     """
     # Establish the base path by finding the project root
     base_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-    # Define the standard path to the 'json' directory
-    json_path = os.path.join(base_path, 'json')
-    # Create the full file path
-    file_path = os.path.join(json_path, filename)
+
+    # Search for the JSON file in the project directory
+    file_path = find_json_file(base_path, filename)
+    if not file_path:
+        logger.log(LogLevel.ERROR, f"The file {filename} was not found in the project.")
+        raise FileNotFoundError(f"The file {filename} was not found in the project.")
 
     # Try to open and load the JSON file
     try:
@@ -36,9 +55,6 @@ def load_json(filename):
             data = json.load(file)
             logger.log(LogLevel.INFO, f"Successfully loaded {filename}")
             return data
-    except FileNotFoundError:
-        logger.log(LogLevel.ERROR, f"The file {file_path} was not found.")
-        raise
     except json.JSONDecodeError:
         logger.log(LogLevel.ERROR, f"The file {file_path} is not a valid JSON file.")
         raise
@@ -47,7 +63,7 @@ def load_json(filename):
         raise
 
 # Example usage
-# This assumes that 'my_config.json' is in the 'json' directory at the project root
+# This will search the entire project directory for 'my_config.json'
 # try:
 #     config_data = load_json('my_config.json')
 #     # Further processing with config_data...

@@ -9,33 +9,29 @@ from enum import Enum, auto
 # Environment variable for JSON logging
 JSON_LOGGING = os.environ.get("JSON_LOGGING", "false").lower() == "true"
 
-# Define log levels
 class LogLevel(Enum):
-    DEBUG = auto()
-    INFO = auto()
-    WARNING = auto()
-    ERROR = auto()
-    CRITICAL = auto()
+    DEBUG = logging.DEBUG  # 10
+    INFO = logging.INFO    # 20
+    WARNING = logging.WARNING  # 30
+    ERROR = logging.ERROR  # 40
+    CRITICAL = logging.CRITICAL  # 50
 
 # Define log colors
 class LogColor(Enum):
-    RESET = "\033[0m"
-    WHITE = "\033[37m"
-    BLUE = "\033[34m"
-    LIGHT_BLUE = "\033[94m"
-    GREEN = "\033[92m"
-    YELLOW = "\033[93m"
-    ORANGE = "\033[33m"
-    RED = "\033[91m"
-    GREY = "\33[90m"
+    RESET = "\033[0m"      # Reset to default color
+    DEBUG = "\033[34m"     # Blue
+    INFO = "\033[32m"      # Green
+    WARNING = "\033[33m"   # Yellow
+    ERROR = "\033[31m"     # Red
+    CRITICAL = "\033[35m"  # Magenta
 
 # Define log emojis
 class LogEmoji(Enum):
-    DEBUG = "🐛"
-    INFO = "📝"
-    WARNING = "⚠️"
-    ERROR = "❌"
-    CRITICAL = "💥"
+    DEBUG = "🐞"  # Bug emoji for debug
+    INFO = "ℹ️"   # Information emoji for info
+    WARNING = "⚠️"  # Warning emoji for warning
+    ERROR = "❗"   # Exclamation mark emoji for error
+    CRITICAL = "💥" # Explosion emoji for critical
 
 class PolyLogger(logging.Logger):
     FORMAT: str = "%(asctime)s %(name)-15s %(levelname)-8s %(message)s"
@@ -67,8 +63,9 @@ class PolyLogger(logging.Logger):
         if JSON_LOGGING:
             return record  # No special formatting for JSON output
         # Color and emoji formatting
-        record.levelname = f"{LogColor[level.name].value}{record.levelname}{LogColor.RESET.value}"
-        record.msg = f"{LogEmoji[level.name].value} {record.msg}"
+        level_name = LogLevel(record.levelno).name  # Convert numeric level to enum name
+        record.levelname = f"{LogColor[level_name].value}{record.levelname}{LogColor.RESET.value}"
+        record.msg = f"{LogEmoji[level_name].value} {record.msg}"
         return record
 
     def _log(self, level, msg, args, exc_info=None, extra=None, stack_info=False):

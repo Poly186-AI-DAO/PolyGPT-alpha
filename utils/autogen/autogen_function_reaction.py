@@ -8,10 +8,8 @@ LOG = PolyLogger(__name__)
 class PolyAutogenReact :
     """Handles reactions to method calls."""
 
-    def __init__(self, agent, database, workspace):
+    def __init__(self, agent):
         self.agent = agent
-        self.database = database
-        self.workspace = workspace
         LOG.info(f"🔔 {self.agent.name}: Reaction class initialized.")
 
     def _log_with_task_step(self, agent_name, message, data):

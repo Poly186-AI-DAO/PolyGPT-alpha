@@ -3,41 +3,29 @@ import os
 import tempfile
 from autogen import AssistantAgent, UserProxyAgent, GroupChat, GroupChatManager, ChatCompletion
 from autogen.agentchat.contrib.retrieve_user_proxy_agent import RetrieveUserProxyAgent
-from utils.observer import Observable
-from utils.poly_logger import PolyLogger
-from llms_config import LlmConfiguration
-from tools.git_repo_scrapper import git_repo_scraper
-from tools.query_knowledge_graph import query_knowledge_graph
-from tools.planner import task_planner
-from tools.scrape_website import scrape_website
-from tools.search import search
-from tools.summary import summary
-from utils.mongo_db import AgentDB
-from utils.workspace import Workspace
 import chromadb
+from modules.core_llm.llms_config import LlmConfiguration
+from modules.tools.planner import task_planner
+from modules.tools.search import search
+from utils.json_loader import load_json
+
+from utils.poly_observer import PolyObservable
+from utils.poly_logger import PolyLogger
+
 
 # Create a temporary directory
 temp_dir = tempfile.mkdtemp()
 
 LOG = PolyLogger(__name__)
 
-# Get current file directory
-current_file_dir = os.path.dirname(os.path.abspath(__file__))
-
-# Load JSON relative to this file location
-func_json_file_path = os.path.join(
-    current_file_dir, 'FUNCTIONS_DESCRIPTIONS.json')
-
-with open(func_json_file_path) as f:
-    FUNCTIONS_DESCRIPTIONS = json.load(f)
+# Load the JSON data using the load_json function
+FUNCTIONS_DESCRIPTIONS = load_json('FUNCTIONS_DESCRIPTIONS.json')
 
 
-class AgentInitializer(Observable):
-    def __init__(self, database: AgentDB, workspace: Workspace):
+class AgentInitializer(PolyObservable):
+    def __init__(self):
         super().__init__()  # Initialize Observable
 
-        self.database = database
-        self.workspace = workspace
 
         self._agents = {}
         self._groupchat = None

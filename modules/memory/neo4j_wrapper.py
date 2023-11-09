@@ -12,8 +12,8 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import Neo4jVector
 from langchain.document_loaders import TextLoader
 from langchain.docstore.document import Document
+from modules.core_llm.chains import load_embedding_model, load_llm
 
-from utils.chains import load_embedding_model, load_llm
 from utils.poly_logger import PolyLogger
 
 class KnowledgeGraphQuery:

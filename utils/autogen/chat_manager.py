@@ -1,7 +1,8 @@
 from typing import List, Optional
 import autogen
-from utils.chat_handler import ChatHandler
-from utils.chat_type import ChatType
+
+from utils.autogen.chat_handler import ChatHandler
+from utils.autogen.chat_type import ChatType
 
 
 class ChatManager:
