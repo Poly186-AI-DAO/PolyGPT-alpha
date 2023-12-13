@@ -39,7 +39,7 @@ To work on PolyGPT-Alpha, you need to have Python installed along with Poetry fo
    - Use Git to clone the PolyGPT-Alpha repository to your local machine:
 
      ```bash
-     git clone https://github.com/Tonic-AI/PolyGPT-alpha.git
+     git clone https://github.com/Tonic-AI/Poly.git
      ```
 
 3. **Navigate to the Project Directory**:
