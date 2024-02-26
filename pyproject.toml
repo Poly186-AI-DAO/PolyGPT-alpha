@@ -9,7 +9,7 @@ readme = "README.md"
 python = "^3.11"
 pyautogen = "^0.1.14"
 gitpython = "^3.1.40"
-langchain = "^0.0.332"
+langchain = "^0.1.0"
 beautifulsoup4 = "^4.12.2"
 
 
