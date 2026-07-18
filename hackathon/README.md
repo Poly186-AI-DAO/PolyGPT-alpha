@@ -10,6 +10,7 @@ This directory is a bounded proof bundle. It does not claim a live Qwen deployme
 ## Evidence map
 
 - [`qwen_integration.py`](qwen_integration.py): OpenAI-compatible Qwen Cloud adapter. Fails closed when credentials are absent.
+- [`deployment_proof.md`](deployment_proof.md): placeholder-safe live deployment receipt template. It remains explicitly unverified until a real provider response exists.
 - [`architecture.svg`](architecture.svg): rendered architecture diagram.
 - [`demo_script.md`](demo_script.md): three-minute recording plan.
 - [`../LICENSE`](../LICENSE): MIT license for the repository.
@@ -35,4 +36,4 @@ The demo is designed to show: planning, tool routing, source grounding, durable 
 python -m py_compile hackathon/qwen_integration.py
 ```
 
-Expected behavior without credentials is a clear `QwenCloudError`, not a fabricated response. This is intentional receipt-first behavior.
+Expected behavior without credentials is a clear `QwenCloudError`, not a fabricated response. This is intentional receipt-first behavior. See [`deployment_proof.md`](deployment_proof.md) for the exact evidence still required for a live claim.
