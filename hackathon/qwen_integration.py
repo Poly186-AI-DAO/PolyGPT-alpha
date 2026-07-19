@@ -7,8 +7,12 @@ credentials are absent; no fake completion is returned.
 
 from __future__ import annotations
 
+import logging
 import os
 from typing import Any
+
+
+logger = logging.getLogger(__name__)
 
 
 class QwenCloudError(RuntimeError):
@@ -47,6 +51,21 @@ def qwen_chat(messages: list[dict[str, str]], *, model: str | None = None) -> di
     return response.model_dump() if hasattr(response, "model_dump") else response.to_dict()
 
 
+def main() -> int:
+    """Run the bounded proof entry point with structured, non-secret logging."""
+    try:
+        response = qwen_chat([{"role": "user", "content": "Return the word READY."}])
+    except QwenCloudError as exc:
+        logger.error("qwen_cloud_proof_failed", extra={"reason": str(exc)})
+        return 1
+
+    logger.info(
+        "qwen_cloud_proof_succeeded",
+        extra={"response_keys": sorted(response.keys())},
+    )
+    return 0
+
+
 if __name__ == "__main__":
-    result = qwen_chat([{"role": "user", "content": "Return the word READY."}])
-    print(result)
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
+    raise SystemExit(main())
